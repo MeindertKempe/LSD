@@ -1,0 +1,4 @@
+[submodule "SDL"]
+	path = SDL
+	url = https://github.com/libsdl-org/SDL/
+	branch = f461d91cd265d7b9a44b4d472b1df0c0ad2855a0
