@@ -1,7 +1,9 @@
 #define SDL_MAIN_HANDLED
 #include "window.h"
+#include "control_component.h"
 
 Window window;
+ControlComponent controller;
 
 void Init();
 void Update();
@@ -22,7 +24,7 @@ int main(int argc, char *argv[]) {
 
 void Init(){
 	window.InitializeWindow("Lsd Run", 1280, 720);
-
+	
 }
 
 void Update(){
@@ -32,7 +34,7 @@ void Update(){
 	if(e.type == SDL_QUIT){
 		window.Quit();
 	}
-
+	controller.CheckKeyPress(e);
 }
 
 void Render(){

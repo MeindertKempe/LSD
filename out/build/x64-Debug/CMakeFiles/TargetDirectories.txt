@@ -1,0 +1,12 @@
+C:/Users/stefk/Desktop/repos/LSD/out/build/x64-Debug/CMakeFiles/lsd.dir
+C:/Users/stefk/Desktop/repos/LSD/out/build/x64-Debug/CMakeFiles/copy_resources.dir
+C:/Users/stefk/Desktop/repos/LSD/out/build/x64-Debug/CMakeFiles/edit_cache.dir
+C:/Users/stefk/Desktop/repos/LSD/out/build/x64-Debug/CMakeFiles/rebuild_cache.dir
+C:/Users/stefk/Desktop/repos/LSD/out/build/x64-Debug/SDL/CMakeFiles/sdl_headers_copy.dir
+C:/Users/stefk/Desktop/repos/LSD/out/build/x64-Debug/SDL/CMakeFiles/SDL2main.dir
+C:/Users/stefk/Desktop/repos/LSD/out/build/x64-Debug/SDL/CMakeFiles/SDL2.dir
+C:/Users/stefk/Desktop/repos/LSD/out/build/x64-Debug/SDL/CMakeFiles/SDL2-static.dir
+C:/Users/stefk/Desktop/repos/LSD/out/build/x64-Debug/SDL/CMakeFiles/SDL2_test.dir
+C:/Users/stefk/Desktop/repos/LSD/out/build/x64-Debug/SDL/CMakeFiles/uninstall.dir
+C:/Users/stefk/Desktop/repos/LSD/out/build/x64-Debug/SDL/CMakeFiles/edit_cache.dir
+C:/Users/stefk/Desktop/repos/LSD/out/build/x64-Debug/SDL/CMakeFiles/rebuild_cache.dir
