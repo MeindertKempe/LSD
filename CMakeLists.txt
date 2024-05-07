@@ -25,11 +25,10 @@ elseif (CMAKE_CXX_COMPILER_ID STREQUAL "MSVC")
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /W4")
 endif()
 
-
 add_executable(lsd)
 
 file(GLOB_RECURSE sources src/*.cpp)
-target_sources(lsd PUBLIC ${sources} "${CMAKE_SOURCE_DIR}/depedencies/src/glad.c")
+target_sources(lsd PUBLIC ${sources} "${CMAKE_SOURCE_DIR}/dependencies/src/glad.c")
 
 find_package(OpenCV REQUIRED)
 
