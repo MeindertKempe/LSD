@@ -42,7 +42,7 @@ add_dependencies(lsd copy_resources)
 
 target_include_directories(lsd PUBLIC "${CMAKE_SOURCE_DIR}/header/") 
 target_include_directories(lsd PUBLIC "${CMAKE_SOURCE_DIR}/SDL/include/")
-target_include_directories(lsd PUBLIC "${CMAKE_SOURCE_DIR}/depedencies/include/")
+target_include_directories(lsd PUBLIC "${CMAKE_SOURCE_DIR}/dependencies/include/")
 
 add_subdirectory(SDL EXCLUDE_FROM_ALL)
 target_link_libraries(lsd PRIVATE SDL2::SDL2 ${OpenCV_LIBS})
