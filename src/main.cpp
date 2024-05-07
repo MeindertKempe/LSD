@@ -1,22 +1,49 @@
 #define SDL_MAIN_HANDLED
-#include "SDL.h"
+#include "window.h"
+
+Window window;
+
+void Init();
+void Update();
+void Render();
+void Close();
 
 int main(int argc, char *argv[]) {
-	SDL_Init(SDL_INIT_VIDEO);
+	Init();
+	while(!window.WindowShouldClose()){
+		Update();
+		Render();
 
-	SDL_Window *window = SDL_CreateWindow("SDL2Test", SDL_WINDOWPOS_UNDEFINED,
-	                                      SDL_WINDOWPOS_UNDEFINED, 640, 480, 0);
-
-	SDL_Renderer *renderer =
-	    SDL_CreateRenderer(window, -1, SDL_RENDERER_SOFTWARE);
-	SDL_SetRenderDrawColor(renderer, 0, 0, 0, SDL_ALPHA_OPAQUE);
-	SDL_RenderClear(renderer);
-	SDL_RenderPresent(renderer);
-
-	SDL_Delay(3000);
-
-	SDL_DestroyWindow(window);
-	SDL_Quit();
-
+	}
+	Close();
 	return 0;
+}
+
+
+void Init(){
+	window.InitializeWindow("Lsd Run", 1280, 720);
+
+}
+
+void Update(){
+	window.PollEvents();
+	SDL_Event e;
+	e = window.GetEvent();
+	if(e.type == SDL_QUIT){
+		window.Quit();
+	}
+
+}
+
+void Render(){
+	glClear(GL_COLOR_BUFFER_BIT);
+	glClearColor(0.6, 0.7, 0.8, 1.0);
+
+	window.SwapBuffers();
+}
+
+void Close(){
+	window.DestroyWindow();
+
+
 }

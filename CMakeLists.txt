@@ -25,13 +25,22 @@ elseif (CMAKE_CXX_COMPILER_ID STREQUAL "MSVC")
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /W4")
 endif()
 
+
 add_executable(lsd)
 
-target_sources(lsd PUBLIC "${CMAKE_SOURCE_DIR}/src/main.cpp" "${CMAKE_SOURCE_DIR}/depedencies/src/glad.c")
+file(GLOB_RECURSE sources src/*.cpp)
+target_sources(lsd PUBLIC ${sources} "${CMAKE_SOURCE_DIR}/depedencies/src/glad.c")
 
 find_package(OpenCV REQUIRED)
 
-target_include_directories(lsd PUBLIC "${CMAKE_SOURCE_DIR}/header/")
+add_custom_target(copy_resources ALL
+    COMMAND ${CMAKE_COMMAND} -E copy_directory
+        ${PROJECT_SOURCE_DIR}/resources
+        ${PROJECT_BINARY_DIR}/Debug/resources
+    COMMENT "Copying resources!")
+add_dependencies(lsd copy_resources)
+
+target_include_directories(lsd PUBLIC "${CMAKE_SOURCE_DIR}/header/") 
 target_include_directories(lsd PUBLIC "${CMAKE_SOURCE_DIR}/SDL/include/")
 target_include_directories(lsd PUBLIC "${CMAKE_SOURCE_DIR}/depedencies/include/")
 
