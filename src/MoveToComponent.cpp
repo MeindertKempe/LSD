@@ -1,8 +1,12 @@
-#include "GameObject.h" //or whatever the gameobject header file will be called
+#include "game_object.h"
 #include "move_to_component.h"
+#include <iostream>
 
-MoveToComponent::MoveToComponent() {}
+MoveToComponent::MoveToComponent(glm::vec3 *position) { target = *position; }
 
-void MoveToComponent::update(float elapsedTime) {
+MoveToComponent::~MoveToComponent() {}
+
+void MoveToComponent::Update(float elapsedTime) {
 	gameObject->position = (1 - speed) * gameObject->position + speed * target;
+	target.z            -= 0.02 * elapsedTime;
 }
