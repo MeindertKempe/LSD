@@ -32,10 +32,19 @@ void Init(){
 	window.InitializeWindow("Lsd Run", 1280, 720);
 	camera.InitializeCamera(glm::vec3{0,0,0});
 
-	GameObject* lane = new GameObject();
-	lane->AddDrawComponent(new ModelComponent("lane/lane.gltf", "lane_texture.png"));
-	lane->AddComponent(new MoveToComponent());
-	gameObjects.push_back(lane);
+	for (int i = 0; i < 100; i++)
+	{
+		GameObject *lane = new GameObject();
+		lane->AddDrawComponent(new ModelComponent("lane/lane.gltf", "lane_texture.png"));
+		lane->position = glm::vec3(0, 0, i * 10);
+		lane->AddComponent(new MoveToComponent(&lane->position));
+		gameObjects.push_back(lane);
+	}
+
+	//GameObject* lane = new GameObject();
+	//lane->AddDrawComponent(new ModelComponent("lane/lane.gltf", "lane_texture.png"));
+	//lane->AddComponent(new MoveToComponent());
+	//gameObjects.push_back(lane);
 
 	glEnable(GL_DEPTH_TEST);
 }
