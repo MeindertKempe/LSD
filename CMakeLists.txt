@@ -28,7 +28,7 @@ endif()
 add_executable(lsd)
 
 file(GLOB_RECURSE sources src/*.cpp)
-target_sources(lsd PUBLIC ${sources} "${CMAKE_SOURCE_DIR}/dependencies/src/glad.c" "header/control_component.h")
+target_sources(lsd PUBLIC ${sources} "${CMAKE_SOURCE_DIR}/dependencies/src/glad.c")
 
 find_package(OpenCV REQUIRED)
 
