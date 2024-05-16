@@ -10,6 +10,5 @@ public:
 
 	MoveToComponent(glm::vec3 *position);
 	~MoveToComponent();
-
 	virtual void Update(float elapsedTime) override;
 };
