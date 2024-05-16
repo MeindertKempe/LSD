@@ -3,6 +3,8 @@
 #include "camera.h"
 #include "game_object.h"
 #include "model_component.h"
+#include "move_to_component.h"
+#include "spin_component.h"
 #include <iostream>
 
 Window window;
@@ -31,9 +33,20 @@ void Init(){
 	window.InitializeWindow("Lsd Run", 1280, 720);
 	camera.InitializeCamera(glm::vec3{0,0,0});
 
-	GameObject* lane = new GameObject();
-	lane->AddDrawComponent(new ModelComponent("lane/lane.gltf", "lane_texture.png"));
-	gameObjects.push_back(lane);
+	for (int i = 0; i < 100; i++)
+	{
+		GameObject *lane = new GameObject();
+		lane->AddDrawComponent(new ModelComponent("lane/lane.gltf", "lane_texture.png"));
+		lane->position = glm::vec3(0, 0, i * 10);
+		lane->AddComponent(new MoveToComponent(&lane->position));
+		lane->AddComponent(new SpinComponent(0.0005f));
+		gameObjects.push_back(lane);
+	}
+
+	//GameObject* lane = new GameObject();
+	//lane->AddDrawComponent(new ModelComponent("lane/lane.gltf", "lane_texture.png"));
+	//lane->AddComponent(new MoveToComponent());
+	//gameObjects.push_back(lane);
 
 	GameObject* coin = new GameObject();
 	coin->AddDrawComponent(new ModelComponent("coin/coin.gltf", "coin.png"));
@@ -61,6 +74,7 @@ void Update(){
     }
 
 	camera.Update(glm::vec3{0,0,0});
+	
 }
 
 void Render(){
