@@ -1,11 +1,14 @@
 #define SDL_MAIN_HANDLED
 #include "window.h"
 #include "camera.h"
-#include "model.h"
+#include "game_object.h"
+#include "model_component.h"
 #include <iostream>
 
 Window window;
 Camera camera;
+std::vector<GameObject*> gameObjects;
+f64 lastFrameTime = 0;
 
 void Init();
 void Update();
@@ -27,6 +30,12 @@ int main(int argc, char *argv[]) {
 void Init(){
 	window.InitializeWindow("Lsd Run", 1280, 720);
 	camera.InitializeCamera(glm::vec3{0,0,0});
+
+	GameObject* lane = new GameObject();
+	lane->AddDrawComponent(new ModelComponent("lane/lane.gltf", "lane_texture.png"));
+	gameObjects.push_back(lane);
+
+	glEnable(GL_DEPTH_TEST);
 }
 
 void Update(){
@@ -37,21 +46,30 @@ void Update(){
 		window.Quit();
 	}
 
+	//Calculate deltaTime
+    f64 currentFrameTime = SDL_GetTicks64();
+	f64 deltaTime = currentFrameTime - lastFrameTime;
+    lastFrameTime = currentFrameTime;
+
+	for(auto gameObject : gameObjects){
+        gameObject->Update(deltaTime);
+    }
+
 	camera.Update(glm::vec3{0,0,0});
 }
 
 void Render(){
-	glClear(GL_COLOR_BUFFER_BIT);
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	glClearColor(0.6, 0.7, 0.8, 1.0);
 
-
-
+	glm::mat4 projectionView = camera.GetViewProjectionMatrix();
+    for(auto gameObject : gameObjects){
+        gameObject->Draw(projectionView);
+    }
 
 	window.SwapBuffers();
 }
 
 void Close(){
 	window.DestroyWindow();
-
-
 }

@@ -54,6 +54,10 @@ void Model::LoadModel(std::string fileName){
     indices = GetIndexData(jsonData["accessors"][indicesIndex]);
 }
 
+void Model::DestroyModel(){
+    
+}
+
 std::vector<f32> Model::GetVertexData(json accessor){
     std::vector<f32> data;
     //Model has multiple bufferViews for vertices, normals, uvs, etc. this is the index for accessor[0] which is vertices.

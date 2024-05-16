@@ -1,6 +1,6 @@
 {
     "asset" : {
-        "generator" : "Khronos glTF Blender I/O v3.3.36",
+        "generator" : "Khronos glTF Blender I/O v1.8.19",
         "version" : "2.0"
     },
     "scene" : 0,
@@ -21,7 +21,7 @@
     "materials" : [
         {
             "doubleSided" : true,
-            "name" : "Material",
+            "name" : "Material.001",
             "pbrMetallicRoughness" : {
                 "baseColorTexture" : {
                     "index" : 0
@@ -33,7 +33,7 @@
     ],
     "meshes" : [
         {
-            "name" : "Cube",
+            "name" : "Cube.001",
             "primitives" : [
                 {
                     "attributes" : {
@@ -56,8 +56,8 @@
     "images" : [
         {
             "mimeType" : "image/png",
-            "name" : "texture",
-            "uri" : "texture/texture.png"
+            "name" : "lane_texture",
+            "uri" : "textures/lane_texture.png"
         }
     ],
     "accessors" : [
@@ -100,26 +100,22 @@
         {
             "buffer" : 0,
             "byteLength" : 1368,
-            "byteOffset" : 0,
-            "target" : 34962
+            "byteOffset" : 0
         },
         {
             "buffer" : 0,
             "byteLength" : 1368,
-            "byteOffset" : 1368,
-            "target" : 34962
+            "byteOffset" : 1368
         },
         {
             "buffer" : 0,
             "byteLength" : 912,
-            "byteOffset" : 2736,
-            "target" : 34962
+            "byteOffset" : 2736
         },
         {
             "buffer" : 0,
             "byteLength" : 360,
-            "byteOffset" : 3648,
-            "target" : 34963
+            "byteOffset" : 3648
         }
     ],
     "samplers" : [
