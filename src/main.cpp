@@ -35,6 +35,11 @@ void Init(){
 	lane->AddDrawComponent(new ModelComponent("lane/lane.gltf", "lane_texture.png"));
 	gameObjects.push_back(lane);
 
+	GameObject* coin = new GameObject();
+	coin->AddDrawComponent(new ModelComponent("coin/coin.gltf", "coin.png"));
+	coin->position = glm::vec3(0.0, 2.0, 0.0);
+	gameObjects.push_back(coin);
+
 	glEnable(GL_DEPTH_TEST);
 }
 
