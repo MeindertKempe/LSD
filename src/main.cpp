@@ -3,6 +3,8 @@
 #include "camera.h"
 #include "game_object.h"
 #include "model_component.h"
+#include "move_to_component.h"
+#include "spin_component.h"
 #include <iostream>
 
 Window window;
@@ -29,18 +31,31 @@ int main(int argc, char *argv[]) {
 
 void Init(){
 	window.InitializeWindow("Lsd Run", 1280, 720);
-	camera.InitializeCamera(glm::vec3{0,0,0});
+	camera.InitializeCamera(glm::vec3{0,5,0});
 
-	GameObject* lane = new GameObject();
-	lane->AddDrawComponent(new ModelComponent("lane/lane.gltf", "lane_texture.png"));
-	gameObjects.push_back(lane);
+	for (int i = 0; i < 100; i++)
+	{
+		GameObject *lane = new GameObject();
+		lane->AddDrawComponent(new ModelComponent("lane/lane.gltf", "lane_texture.png"));
+		lane->position = glm::vec3(0, 0, i * 10);
+		lane->AddComponent(new MoveToComponent(&lane->position));
+		//lane->AddComponent(new SpinComponent(0.0005f));
+		gameObjects.push_back(lane);
+	}
+
+	GameObject* player = new GameObject();
+	player->AddDrawComponent(new ModelComponent("player/player.gltf", "player.png"));
+	player->position = glm::vec3(0.0, 1.0, 0.0);
+	gameObjects.push_back(player);	
 
 	GameObject* coin = new GameObject();
 	coin->AddDrawComponent(new ModelComponent("coin/coin.gltf", "coin.png"));
+	coin->AddComponent(new SpinComponent(0.0005f));
 	coin->position = glm::vec3(0.0, 2.0, 0.0);
 	gameObjects.push_back(coin);
 
 	glEnable(GL_DEPTH_TEST);
+	glEnable(GL_BLEND);
 }
 
 void Update(){
@@ -60,7 +75,8 @@ void Update(){
         gameObject->Update(deltaTime);
     }
 
-	camera.Update(glm::vec3{0,0,0});
+	camera.Update(glm::vec3{0,5,0});
+	
 }
 
 void Render(){
