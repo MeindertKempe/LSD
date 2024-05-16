@@ -9,7 +9,7 @@ const f64 TIMER_TIME = 0.6;
 
 ControlComponent::ControlComponent() {
 	currLaneState = middleLane;
-	moveState     = none;
+	currMoveState     = none;
 }
 
 void ControlComponent::Update(float elapsedTime) {
@@ -47,13 +47,13 @@ void ControlComponent::Update(float elapsedTime) {
 		}
 
 		else if (keystate[SDL_SCANCODE_SPACE]) {
-			moveState = jump;
+			currMoveState = jump;
 			cout << "Action: jump" << endl;
 			timer.Start(TIMER_TIME);
 		}
 
 		else if (keystate[SDL_SCANCODE_LCTRL]) {
-			moveState = crouch;
+			currMoveState = crouch;
 			cout << "Action: crouch" << endl;
 			timer.Start(TIMER_TIME);
 		}

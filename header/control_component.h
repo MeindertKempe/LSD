@@ -9,10 +9,10 @@ using namespace std;
 class ControlComponent : public Component {
 public:
 	enum laneState { leftLane, middleLane, rightLane };
-	enum moveState { jump, crouch, none };
+	enum moves { jump, crouch, none };
 
 	laneState currLaneState;
-	moveState moveState;
+	moves currMoveState;
 
 	Timer timer;
 
