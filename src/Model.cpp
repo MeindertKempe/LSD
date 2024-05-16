@@ -17,7 +17,6 @@ void Model::LoadModel(std::string fileName){
     //get .bin file with all the data. Needs to exist (for now)
     std::string uri = jsonData["buffers"][0]["uri"];
     std::string fileDirectory = filePath.substr(0, filePath.find_last_of('/') + 1);
-    std::cout << fileDirectory << uri << std::endl;
     std::ifstream binaryFile(fileDirectory + uri, std::ios::binary);
     
     //read entire binary file into a string in one line because im lazy.
@@ -52,6 +51,10 @@ void Model::LoadModel(std::string fileName){
     }
 
     indices = GetIndexData(jsonData["accessors"][indicesIndex]);
+}
+
+void Model::DestroyModel(){
+    
 }
 
 std::vector<f32> Model::GetVertexData(json accessor){

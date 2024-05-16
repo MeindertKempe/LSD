@@ -15,7 +15,7 @@
     "nodes" : [
         {
             "mesh" : 0,
-            "name" : "Cube"
+            "name" : "Circle"
         }
     ],
     "materials" : [
@@ -23,17 +23,20 @@
             "doubleSided" : true,
             "name" : "Material.001",
             "pbrMetallicRoughness" : {
-                "baseColorTexture" : {
-                    "index" : 0
-                },
+                "baseColorFactor" : [
+                    0.8000000715255737,
+                    0.37632113695144653,
+                    0,
+                    1
+                ],
                 "metallicFactor" : 0,
-                "roughnessFactor" : 0.5
+                "roughnessFactor" : 0
             }
         }
     ],
     "meshes" : [
         {
-            "name" : "Cube.001",
+            "name" : "Circle",
             "primitives" : [
                 {
                     "attributes" : {
@@ -47,87 +50,68 @@
             ]
         }
     ],
-    "textures" : [
-        {
-            "sampler" : 0,
-            "source" : 0
-        }
-    ],
-    "images" : [
-        {
-            "mimeType" : "image/png",
-            "name" : "lane_texture",
-            "uri" : "textures/lane_texture.png"
-        }
-    ],
     "accessors" : [
         {
             "bufferView" : 0,
             "componentType" : 5126,
-            "count" : 114,
+            "count" : 256,
             "max" : [
-                7.200000286102295,
-                2,
-                5
+                0.32500702142715454,
+                0.9999999403953552,
+                0.9999999403953552
             ],
             "min" : [
-                -7.200000286102295,
-                -1,
-                -5
+                -0.32500702142715454,
+                -0.9999999403953552,
+                -0.9999999403953552
             ],
             "type" : "VEC3"
         },
         {
             "bufferView" : 1,
             "componentType" : 5126,
-            "count" : 114,
+            "count" : 256,
             "type" : "VEC3"
         },
         {
             "bufferView" : 2,
             "componentType" : 5126,
-            "count" : 114,
+            "count" : 256,
             "type" : "VEC2"
         },
         {
             "bufferView" : 3,
             "componentType" : 5123,
-            "count" : 180,
+            "count" : 468,
             "type" : "SCALAR"
         }
     ],
     "bufferViews" : [
         {
             "buffer" : 0,
-            "byteLength" : 1368,
+            "byteLength" : 3072,
             "byteOffset" : 0
         },
         {
             "buffer" : 0,
-            "byteLength" : 1368,
-            "byteOffset" : 1368
+            "byteLength" : 3072,
+            "byteOffset" : 3072
         },
         {
             "buffer" : 0,
-            "byteLength" : 912,
-            "byteOffset" : 2736
+            "byteLength" : 2048,
+            "byteOffset" : 6144
         },
         {
             "buffer" : 0,
-            "byteLength" : 360,
-            "byteOffset" : 3648
-        }
-    ],
-    "samplers" : [
-        {
-            "magFilter" : 9729,
-            "minFilter" : 9987
+            "byteLength" : 936,
+            "byteOffset" : 8192
         }
     ],
     "buffers" : [
         {
-            "byteLength" : 4008,
-            "uri" : "lane.bin"
+            "byteLength" : 9128,
+            "uri" : "coin.bin"
         }
     ]
 }

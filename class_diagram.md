@@ -53,10 +53,14 @@ classDiagram
     }
 
     class DrawComponent{
-        -renderObject : RenderObject
-        -shader : Shader
-        -model : Model
-        -texture : Texture
+        +virtual Draw()
+    }
+
+    class ModelComponent{
+        - shader : Shader
+        - texture : Texture
+        - model : Model
+        - renderObject : RenderObject
         +Draw()
     }
 
@@ -75,10 +79,10 @@ classDiagram
     }
 
     DrawComponent --|> Component
-    DrawComponent *-- RenderObject
-    DrawComponent *-- Shader
-    DrawComponent *-- Texture
-    DrawComponent *-- Model
+    ModelComponent --|> DrawComponent
+    ModelComponent *-- RenderObject
+    ModelComponent *-- Shader
+    ModelComponent *-- Texture
+    ModelComponent *-- Model
     GameObject *-- Component
-    GameObject *-- DrawComponent
 ```
