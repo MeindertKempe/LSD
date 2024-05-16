@@ -4,11 +4,13 @@
 #include "game_object.h"
 #include "model_component.h"
 #include "move_to_component.h"
+#include "game_manager.h"
 #include <iostream>
 
 Window window;
 Camera camera;
 std::vector<GameObject*> gameObjects;
+GameManager gameManager;
 f64 lastFrameTime = 0;
 
 void Init();
@@ -31,6 +33,10 @@ int main(int argc, char *argv[]) {
 void Init(){
 	window.InitializeWindow("Lsd Run", 1280, 720);
 	camera.InitializeCamera(glm::vec3{0,0,0});
+
+	gameManager = GameManager();
+	gameManager.start();
+	
 
 	GameObject* lane = new GameObject();
 	lane->AddDrawComponent(new ModelComponent("lane/lane.gltf", "lane_texture.png"));
@@ -74,5 +80,6 @@ void Render(){
 }
 
 void Close(){
+	gameManager.stop();
 	window.DestroyWindow();
 }
