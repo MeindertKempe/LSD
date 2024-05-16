@@ -9,7 +9,6 @@
 #include <iostream>
 
 Window window;
-ControlComponent controller;
 Camera camera;
 std::vector<GameObject*> gameObjects;
 f64 lastFrameTime = 0;
@@ -44,9 +43,10 @@ void Init(){
 	}
 
 	GameObject* player = new GameObject();
+	player->AddComponent(new ControlComponent());
 	player->AddDrawComponent(new ModelComponent("player/player.gltf", "player.png"));
 	player->position = glm::vec3(0.0, 1.0, 0.0);
-	gameObjects.push_back(player);	
+	gameObjects.push_back(player);
 
 	GameObject* coin = new GameObject();
 	coin->AddDrawComponent(new ModelComponent("coin/coin.gltf", "coin.png"));
@@ -76,7 +76,6 @@ void Update(){
     }
 
 	camera.Update(glm::vec3{0,5,0});
-	
 }
 
 void Render(){
