@@ -3,6 +3,7 @@
 #include "camera.h"
 #include "game_object.h"
 #include "model_component.h"
+#include "move_to_component.h"
 #include <iostream>
 
 Window window;
@@ -33,6 +34,7 @@ void Init(){
 
 	GameObject* lane = new GameObject();
 	lane->AddDrawComponent(new ModelComponent("lane/lane.gltf", "lane_texture.png"));
+	lane->AddComponent(new MoveToComponent());
 	gameObjects.push_back(lane);
 
 	glEnable(GL_DEPTH_TEST);
@@ -56,6 +58,7 @@ void Update(){
     }
 
 	camera.Update(glm::vec3{0,0,0});
+	
 }
 
 void Render(){
