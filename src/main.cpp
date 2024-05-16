@@ -4,6 +4,7 @@
 #include "game_object.h"
 #include "model_component.h"
 #include "move_to_component.h"
+#include "spin_component.h"
 #include <iostream>
 
 Window window;
@@ -38,6 +39,7 @@ void Init(){
 		lane->AddDrawComponent(new ModelComponent("lane/lane.gltf", "lane_texture.png"));
 		lane->position = glm::vec3(0, 0, i * 10);
 		lane->AddComponent(new MoveToComponent(&lane->position));
+		lane->AddComponent(new SpinComponent(0.0005f));
 		gameObjects.push_back(lane);
 	}
 
