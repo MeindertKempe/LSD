@@ -6,6 +6,9 @@
 #include "model_component.h"
 #include "move_to_component.h"
 #include "spin_component.h"
+#include <opencv2/imgcodecs.hpp>
+#include <opencv2/highgui.hpp>
+#include <opencv2/imgproc.hpp>
 #include <iostream>
 
 Window window;
@@ -56,6 +59,15 @@ void Init(){
 
 	glEnable(GL_DEPTH_TEST);
 	glEnable(GL_BLEND);
+
+	cv::VideoCapture cap(0);
+	cv::Mat img;
+	
+	while (true) {
+		cap.read(img);
+		imshow("Image", img);
+		cv::waitKey(1);
+	}
 }
 
 void Update(){
