@@ -46,6 +46,7 @@ void Init(){
 	GameObject* player = new GameObject();
 	player->AddDrawComponent(new ModelComponent("player/player.gltf", "player.png"));
 	player->position = glm::vec3(0.0, 1.0, 0.0);
+	player->scale = glm::vec3(5);
 	gameObjects.push_back(player);	
 
 	GameObject* coin = new GameObject();
@@ -76,6 +77,8 @@ void Update(){
     }
 
 	camera.Update(glm::vec3{0,5,0});
+
+	controller.CheckKeyPress(e);
 	
 }
 
