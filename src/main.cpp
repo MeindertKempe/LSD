@@ -10,6 +10,7 @@
 #include <opencv2/highgui.hpp>
 #include <opencv2/imgcodecs.hpp>
 #include <opencv2/imgproc.hpp>
+#include <thread>
 
 Window window;
 ControlComponent controller;
@@ -112,20 +113,38 @@ void StartVision() {
 		cv::erode(img, img, cv::Mat(), cv::Point(-1, -1), 12);
 		cv::threshold(img, img, 96, 255, cv::THRESH_BINARY);
 
-		// Divide the image into three sections
 		int width      = img.cols;
 		int thirdWidth = width / 3;
+
+		int height = img.rows;
+		int secondHeight = height / 2;
 
 		cv::Mat left   = img(cv::Rect(0, 0, thirdWidth, img.rows));
 		cv::Mat middle = img(cv::Rect(thirdWidth, 0, thirdWidth, img.rows));
 		cv::Mat right  = img(cv::Rect(2 * thirdWidth, 0, thirdWidth, img.rows));
 
-		// Calculate the sum of white pixels in each section
+		auto topRect = cv::Rect(0, 0, img.cols, secondHeight - 100);
+		auto bottomRect = cv::Rect(0, height - 10, width, 10);
+		
+		cv::Mat top = img(topRect);
+		cv::Mat bottom = img(bottomRect);
+
 		int leftSum   = cv::sum(left)[0];
 		int middleSum = cv::sum(middle)[0];
 		int rightSum  = cv::sum(right)[0];
 
-		// Determine which section has the highest sum of white pixels
+		int topSum = cv::sum(top)[0];
+		int bottomSum = cv::sum(bottom)[0];
+
+		std::string action;
+		if (topSum < 10000) { 
+			action = "crouching";
+		} else if (topSum > 10000 && bottomSum > 2000) {
+			action = "doing nothing";
+		} else if (bottomSum < 2000) {
+			action = "jumping";
+		}
+
 		std::string position;
 		if (leftSum > middleSum && leftSum > rightSum) {
 			position = "Left";
@@ -138,6 +157,11 @@ void StartVision() {
 		}
 
 		std::cout << "User is in the " << position << " part of the image" << std::endl;
+		std::cout << "User is currently " << action << std::endl;
+
+		cv::rectangle(img, topRect, cv::Scalar(255, 0, 0), 2);
+		cv::rectangle(img, bottomRect, cv::Scalar(255, 0, 0), 2);
+
 
 		cv::imshow("Vision", img);
 		cv::waitKey(1);
