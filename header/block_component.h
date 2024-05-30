@@ -1,13 +1,13 @@
 #pragma once
 #include "draw_component.h"
-#include "mesh.h"
 #include "render_object.h"
 #include "texture.h"
+
+extern f32 block_vertices[];
 
 class BlockComponent : public DrawComponent
 {
 private:
-    Mesh blockMesh;
     Texture texture;
     RenderObject renderObject;
 
