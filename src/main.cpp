@@ -63,7 +63,8 @@ void Update(){
 	window.PollEvents();
 	SDL_Event e;
 	e = window.GetEvent();
-	if(e.type == SDL_QUIT){
+	if(e.type == SDL_KEYDOWN && e.key.keysym.sym == SDLK_ESCAPE){
+		std::cout << "Escape pressed | closing the application" << "\n";
 		window.Quit();
 	}
 
