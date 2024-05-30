@@ -10,8 +10,8 @@
 #include <iostream>
 
 Window window;
-ControlComponent controller;
 Camera camera;
+ControlComponent controller;
 std::vector<GameObject*> gameObjects;
 f64 lastFrameTime = 0;
 
@@ -33,6 +33,7 @@ int main(int argc, char *argv[]) {
 void Init(){
 	window.InitializeWindow("Lsd Run", 1280, 720);
 	camera.InitializeCamera(glm::vec3{0,5,0});
+	
 
 	for (int i = 0; i < 100; i++)
 	{
@@ -45,7 +46,10 @@ void Init(){
 	}
 
 	GameObject* player = new GameObject();
+	//controller.player = player;
 	player->AddDrawComponent(new ModelComponent("player/player.gltf", "player.png"));
+	controller.player = player;
+	player->AddComponent(&controller);
 	player->position = glm::vec3(0.0, 1.0, 0.0);
 	player->scale = glm::vec3(5);
 	gameObjects.push_back(player);	
@@ -57,7 +61,7 @@ void Init(){
 	gameObjects.push_back(coin);
 
 	GameObject* block = new GameObject(); 
-	block->AddDrawComponent(new BlockComponent("coin.png"));
+	block->AddDrawComponent(new BlockComponent("stone.png"));
 	block->position = glm::vec3(3.6, 2.0, 0.0);
 	block->scale = glm::vec3(3);
 	gameObjects.push_back(block);
@@ -85,7 +89,6 @@ void Update(){
     }
 
 	camera.Update(glm::vec3{0,5,0});
-
 	controller.CheckKeyPress(e);
 	
 }
