@@ -101,17 +101,21 @@ void Render(){
 void StartVision() {
 	cv::VideoCapture cap(0);
 	cap.set(cv::CAP_PROP_AUTOFOCUS, 0);
+	cap.set(cv::CAP_PROP_BRIGHTNESS, 255);
+
+
 
 	cv::Mat img, backgroundImage, substractImage, grayScaleImage, gaussianBlurImage, dilateImage, erodeImage, thresholdImage;
 
 	// 10 sec for the user to get out of the way
 	std::cout << "Ga voor de camera weg";
-	std::this_thread::sleep_for(10s);
+	std::this_thread::sleep_for(1s);
 
 	cap.read(backgroundImage);
 	cv::imshow("background", backgroundImage);
 
 	while (true) {
+
 		cap.read(img);
 		
 		cv::subtract(img, backgroundImage, substractImage);
@@ -120,6 +124,7 @@ void StartVision() {
 		cv::dilate(gaussianBlurImage, dilateImage, cv::Mat() ,cv::Point(-1, -1), 9);
 		cv::erode(dilateImage, erodeImage, cv::Mat(), cv::Point(-1, -1), 12);
 		cv::threshold(erodeImage, thresholdImage, 33, 255, cv::THRESH_BINARY);
+
 
 		cv::imshow("Vision", thresholdImage);
 		cv::waitKey(1);
