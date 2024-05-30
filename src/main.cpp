@@ -112,8 +112,37 @@ void StartVision() {
 		cv::erode(img, img, cv::Mat(), cv::Point(-1, -1), 12);
 		cv::threshold(img, img, 96, 255, cv::THRESH_BINARY);
 
+		// Divide the image into three sections
+		int width      = img.cols;
+		int thirdWidth = width / 3;
+
+		cv::Mat left   = img(cv::Rect(0, 0, thirdWidth, img.rows));
+		cv::Mat middle = img(cv::Rect(thirdWidth, 0, thirdWidth, img.rows));
+		cv::Mat right  = img(cv::Rect(2 * thirdWidth, 0, thirdWidth, img.rows));
+
+		// Calculate the sum of white pixels in each section
+		int leftSum   = cv::sum(left)[0];
+		int middleSum = cv::sum(middle)[0];
+		int rightSum  = cv::sum(right)[0];
+
+		// Determine which section has the highest sum of white pixels
+		std::string position;
+		if (leftSum > middleSum && leftSum > rightSum) {
+			position = "Left";
+		} else if (middleSum > leftSum && middleSum > rightSum) {
+			position = "Middle";
+		} else if (rightSum > leftSum && rightSum > middleSum) {
+			position = "Right";
+		} else {
+			position = "Unknown";
+		}
+
+		std::cout << "User is in the " << position << " part of the image" << std::endl;
+
 		cv::imshow("Vision", img);
 		cv::waitKey(1);
+
+
 	}
 }
 
