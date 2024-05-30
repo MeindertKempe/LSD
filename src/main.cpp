@@ -2,12 +2,14 @@
 #include "control_component.h"
 #include "window.h"
 #include "camera.h"
+#include "audio.h"
 #include "game_object.h"
 #include "model_component.h"
 #include "move_to_component.h"
 #include "spin_component.h"
 #include <iostream>
 
+Audio audio;
 Window window;
 ControlComponent controller;
 Camera camera;
@@ -21,9 +23,16 @@ void Close();
 
 int main(int argc, char *argv[]) {
 	Init();
+	audio.playBGM();
+
+	char i = 0;
 	while (!window.WindowShouldClose()) {
 		Update();
 		Render();
+
+		audio.playCoin();
+
+		std::cin >> i; // wait for user to press some key
 	}
 	Close();
 	return 0;
@@ -32,6 +41,7 @@ int main(int argc, char *argv[]) {
 void Init(){
 	window.InitializeWindow("Lsd Run", 1280, 720);
 	camera.InitializeCamera(glm::vec3{0,5,0});
+	audio.initEngine();
 
 	for (int i = 0; i < 100; i++)
 	{
