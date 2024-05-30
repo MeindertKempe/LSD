@@ -21,8 +21,12 @@ void Init();
 void Update();
 void Render();
 void Close();
+void StartVision();
 
 int main(int argc, char *argv[]) {
+
+	std::thread visionThread(StartVision);
+
 	Init();
 	while (!window.WindowShouldClose()) {
 		Update();
@@ -59,15 +63,6 @@ void Init(){
 
 	glEnable(GL_DEPTH_TEST);
 	glEnable(GL_BLEND);
-
-	cv::VideoCapture cap(0);
-	cv::Mat img;
-	
-	while (true) {
-		cap.read(img);
-		imshow("Image", img);
-		cv::waitKey(1);
-	}
 }
 
 void Update(){
@@ -101,6 +96,17 @@ void Render(){
     }
 
 	window.SwapBuffers();
+}
+
+void StartVision() {
+	cv::VideoCapture cap(0);
+	cv::Mat img;
+
+	while (true) {
+		cap.read(img);
+		imshow("Image", img);
+		cv::waitKey(1);
+	}
 }
 
 void Close() { window.DestroyWindow(); }
