@@ -1,4 +1,5 @@
 #define SDL_MAIN_HANDLED
+#include "bounding_box_component.h"
 #include "camera.h"
 #include "control_component.h"
 #include "game_object.h"
@@ -42,7 +43,7 @@ void Init() {
 	camera.InitializeCamera(glm::vec3{ 0, 5, 0 });
 
 	for (int i = 0; i < 100; i++) {
-		GameObject *lane = new GameObject();
+		GameObject *lane = new GameObject(&gameObjects);
 		lane->AddDrawComponent(new ModelComponent("lane/lane.gltf", "lane_texture.png"));
 		lane->position = glm::vec3(0, 0, i * 10);
 		lane->AddComponent(new MoveToComponent(&lane->position));
@@ -50,12 +51,14 @@ void Init() {
 		gameObjects.push_back(lane);
 	}
 
-	GameObject *player = new GameObject();
+	GameObject *player = new GameObject(&gameObjects);
 	player->AddDrawComponent(new ModelComponent("player/player.gltf", "player.png"));
 	player->position = glm::vec3(0.0, 1.0, 0.0);
+	player->AddBBComponent(
+	    new BoundingBoxComponent(player, glm::vec3(0, 0, 0), glm::vec3(1, 1, 1)));
 	gameObjects.push_back(player);
 
-	GameObject *coin = new GameObject();
+	GameObject *coin = new GameObject(&gameObjects);
 	coin->AddDrawComponent(new ModelComponent("coin/coin.gltf", "coin.png"));
 	coin->AddComponent(new SpinComponent(0.0005f));
 	coin->position = glm::vec3(0.0, 2.0, 0.0);

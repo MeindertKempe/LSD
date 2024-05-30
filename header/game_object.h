@@ -2,17 +2,20 @@
 
 #include <glm/glm.hpp>
 #include <list>
-
-class Component;
-class DrawComponent;
-class BoundingBoxComponent;
+#include <vector>
+#include "bounding_box_component.h"
+#include "component.h"
+#include "draw_component.h"
 
 class GameObject {
-	DrawComponent *drawComponent = nullptr;
+	int id;
+	std::vector<GameObject *> *gameObjects;
+	DrawComponent *drawComponent               = nullptr;
+	BoundingBoxComponent *boundingBoxComponent = nullptr;
 	std::list<Component *> components;
 
 public:
-	GameObject();
+	GameObject(std::vector<GameObject *> *gameObjects);
 	~GameObject();
 
 	glm::vec3 position = glm::vec3(0);
@@ -24,6 +27,7 @@ public:
 	void Update(float elapsedTime);
 	void Draw(glm::mat4 projectioView);
 	void AddDrawComponent(DrawComponent *drawComponent);
+	void AddBBComponent(BoundingBoxComponent *bbComponent);
 
 	template <class T> T *GetComponent() {
 		for (auto c : components) {
