@@ -30,9 +30,6 @@ add_executable(lsd)
 file(GLOB_RECURSE sources src/*.cpp)
 target_sources(lsd PUBLIC ${sources} "${CMAKE_SOURCE_DIR}/dependencies/src/glad.c")
 
-
-find_package(OpenCV REQUIRED)
-
 add_custom_target(copy_resources ALL
     COMMAND ${CMAKE_COMMAND} -E copy_directory
         ${PROJECT_SOURCE_DIR}/resources
@@ -41,9 +38,16 @@ add_custom_target(copy_resources ALL
 add_dependencies(lsd copy_resources)
 
 target_include_directories(lsd PUBLIC "${CMAKE_SOURCE_DIR}/header/") 
-target_include_directories(lsd PUBLIC "${CMAKE_SOURCE_DIR}/SDL/include/")
 target_include_directories(lsd PUBLIC "${CMAKE_SOURCE_DIR}/dependencies/include/")
 
-add_subdirectory(SDL EXCLUDE_FROM_ALL)
-target_link_libraries(lsd PRIVATE SDL2::SDL2 ${OpenCV_LIBS})
+if(UNIX)
+    find_package(PkgConfig REQUIRED)
+    pkg_check_modules(deps REQUIRED IMPORTED_TARGET sdl2 opencv4)
+    target_link_libraries(lsd PUBLIC PkgConfig::deps)
+else()
+    target_include_directories(lsd PUBLIC "${CMAKE_SOURCE_DIR}/SDL/include/")
+    add_subdirectory(SDL EXCLUDE_FROM_ALL)
+    find_package(OpenCV REQUIRED)
+    target_link_libraries(lsd PRIVATE SDL2::SDL2 ${OpenCV_LIBS})
+endif()
 
