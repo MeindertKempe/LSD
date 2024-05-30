@@ -6,6 +6,7 @@
 #include "model_component.h"
 #include "move_to_component.h"
 #include "spin_component.h"
+#include "block_component.h"
 #include <iostream>
 
 Window window;
@@ -54,6 +55,12 @@ void Init(){
 	coin->AddComponent(new SpinComponent(0.0005f));
 	coin->position = glm::vec3(0.0, 2.0, 0.0);
 	gameObjects.push_back(coin);
+
+	GameObject* block = new GameObject(); 
+	block->AddDrawComponent(new BlockComponent("coin.png"));
+	block->position = glm::vec3(3.6, 2.0, 0.0);
+	block->scale = glm::vec3(3);
+	gameObjects.push_back(block);
 
 	glEnable(GL_DEPTH_TEST);
 	glEnable(GL_BLEND);
