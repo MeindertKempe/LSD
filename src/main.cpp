@@ -52,7 +52,7 @@ void Init(){
 	GameObject* coin = new GameObject();
 	coin->AddDrawComponent(new ModelComponent("coin/coin.gltf", "coin.png"));
 	coin->AddComponent(new SpinComponent(0.0005f));
-	coin->position = glm::vec3(0.0, 2.0, 0.0);
+	coin->position = glm::vec3(0.0, 2.0, 3.0);
 	gameObjects.push_back(coin);
 
 	glEnable(GL_DEPTH_TEST);

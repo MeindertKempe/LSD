@@ -15,6 +15,8 @@ enum BufferType{
 enum DrawType{
     DRAW_ARRAY,
     DRAW_ELEMENT,
+    DRAW_A_INSTANCED,
+    DRAW_E_INSTANCED,
 };
 
 typedef struct {
