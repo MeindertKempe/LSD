@@ -88,7 +88,7 @@ void Update(){
         gameObject->Update(deltaTime);
     }
 
-	camera.Update(glm::vec3{0,5,0});
+	camera.Update(glm::vec3{0,7,-5});
 	controller.CheckKeyPress(e);
 	
 }

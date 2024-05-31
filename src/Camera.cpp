@@ -31,7 +31,7 @@ void Camera::Update(glm::vec3 targetPosition){
     target = targetPosition;
     position.x = glm::sin(angle.x) * zoomLevel * glm::cos(angle.y) + target.x;
     position.y = ((angle.y <= 0.0f)? 1 : -1) * glm::sin(angle.y) * zoomLevel * glm::sin(angle.y) + target.y;
-    position.z = glm::cos(angle.x) * zoomLevel * glm::cos(angle.y) + target.z;
+    position.z = -glm::cos(angle.x) * zoomLevel * glm::cos(angle.y) + target.z;
 }    
 
 glm::mat4 Camera::GetViewProjectionMatrix(){
