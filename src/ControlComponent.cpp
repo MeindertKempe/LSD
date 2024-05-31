@@ -4,7 +4,6 @@
 
 void ControlComponent::CheckKeyPress(SDL_Event e) {
 	const float MOVE_AMOUNT = 3.5f;
-	const float MOVE_SPEED = 0.1f;
 
 	if (e.type == SDL_KEYDOWN) {
 		if (e.key.keysym.sym == SDLK_d) { 
