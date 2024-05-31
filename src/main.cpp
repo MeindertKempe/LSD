@@ -116,28 +116,28 @@ void StartVision() {
 		int width      = img.cols;
 		int thirdWidth = width / 3;
 
-		int height = img.rows;
+		int height       = img.rows;
 		int secondHeight = height / 2;
 
 		cv::Mat left   = img(cv::Rect(0, 0, thirdWidth, img.rows));
 		cv::Mat middle = img(cv::Rect(thirdWidth, 0, thirdWidth, img.rows));
 		cv::Mat right  = img(cv::Rect(2 * thirdWidth, 0, thirdWidth, img.rows));
 
-		auto topRect = cv::Rect(0, 0, img.cols, secondHeight - 100);
+		auto topRect    = cv::Rect(0, 0, img.cols, secondHeight - 100);
 		auto bottomRect = cv::Rect(0, height - 10, width, 10);
-		
-		cv::Mat top = img(topRect);
+
+		cv::Mat top    = img(topRect);
 		cv::Mat bottom = img(bottomRect);
 
 		int leftSum   = cv::sum(left)[0];
 		int middleSum = cv::sum(middle)[0];
 		int rightSum  = cv::sum(right)[0];
 
-		int topSum = cv::sum(top)[0];
+		int topSum    = cv::sum(top)[0];
 		int bottomSum = cv::sum(bottom)[0];
 
 		std::string action;
-		if (topSum < 10000) { 
+		if (topSum < 10000) {
 			action = "crouching";
 		} else if (topSum > 10000 && bottomSum > 2000) {
 			action = "doing nothing";
@@ -162,11 +162,8 @@ void StartVision() {
 		cv::rectangle(img, topRect, cv::Scalar(255, 0, 0), 2);
 		cv::rectangle(img, bottomRect, cv::Scalar(255, 0, 0), 2);
 
-
 		cv::imshow("Vision", img);
 		cv::waitKey(1);
-
-
 	}
 }
 
