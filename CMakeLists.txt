@@ -2,14 +2,6 @@ cmake_minimum_required(VERSION 3.0)
 
 project(lsd)
 
-# Set the path to the directory where you extracted the BASS library
-set(BASS_LIBRARY_DIR "${CMAKE_SOURCE_DIR}/bass24/c")
-set(BASS_DLL_DIR "${CMAKE_SOURCE_DIR}/bass24")
-
-
-# Include BASS headers
-include_directories(${BASS_LIBRARY_DIR})
-
 #zet de dll library automatisch in de exe folder.
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/$<CONFIGURATION>)
 set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/$<CONFIGURATION>)
@@ -38,7 +30,6 @@ add_executable(lsd)
 file(GLOB_RECURSE sources src/*.cpp)
 target_sources(lsd PUBLIC ${sources} "${CMAKE_SOURCE_DIR}/dependencies/src/glad.c")
 
-
 find_package(OpenCV REQUIRED)
 
 add_custom_target(copy_resources ALL
@@ -53,14 +44,7 @@ target_include_directories(lsd PUBLIC "${CMAKE_SOURCE_DIR}/SDL/include/")
 target_include_directories(lsd PUBLIC "${CMAKE_SOURCE_DIR}/dependencies/include/")
 target_include_directories(lsd PUBLIC "${BASS_LIBRARY_DIR}")
 
-add_library(bass SHARED IMPORTED)
-set_target_properties(bass PROPERTIES IMPORTED_IMPLIB ${BASS_LIBRARY_DIR}/bass.lib)
-set_target_properties(bass PROPERTIES IMPORTED_LOCATION ${BASS_DLL_DIR}/bass.dll)
-
 target_link_directories(lsd PUBLIC ${BASS_DLL_DIR})
 
 add_subdirectory(SDL EXCLUDE_FROM_ALL)
-target_link_libraries(lsd PRIVATE SDL2::SDL2 ${OpenCV_LIBS} ${BASS_DLL_DIR}/bass.dll)
-
-
-
+target_link_libraries(lsd PRIVATE SDL2::SDL2 ${OpenCV_LIBS})

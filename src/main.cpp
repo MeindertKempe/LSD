@@ -30,7 +30,7 @@ int main(int argc, char *argv[]) {
 		Update();
 		Render();
 
-		audio.playCoin();
+		//audio.playCoin();
 
 		std::cin >> i; // wait for user to press some key
 	}

@@ -1,21 +1,22 @@
+#define MINIAUDIO_IMPLEMENTATION
 #include "audio.h"
-#include "bass.h"
+#include <iostream>
 
 Audio::Audio() {}
 Audio::~Audio() {}
 
 void Audio::initEngine() {
-	BASS_Init(-1, 48000, 0, nullptr, nullptr);
+	ma_result result;
+	result = ma_engine_init(NULL, &engine);
+    if (result != MA_SUCCESS) {
+       std::cout << "failed to start audio /n";
+    }
 }
 
 void Audio::playBGM() {
-	HSAMPLE sample1 = BASS_SampleLoad(FALSE, "resource/audio/BGM.wav", 0, 0, 1, BASS_SAMPLE_FLOAT);
-	HCHANNEL channel1 = BASS_SampleGetChannel(sample1, FALSE);
-	BASS_ChannelPlay(channel1, FALSE);
+	ma_engine_play_sound(&engine, "resources/audio/BGM.wav", NULL);
 }
 
 void Audio::playCoin() {
-	HSAMPLE sample2 = BASS_SampleLoad(FALSE, "resource/audio/coin.wav", 0, 0, 1, BASS_SAMPLE_FLOAT);
-	HCHANNEL channel2 = BASS_SampleGetChannel(sample2, FALSE);
-	BASS_ChannelPlay(channel2, FALSE);
+	ma_engine_play_sound(&engine, "resources/audio/coin.wav", NULL);
 }
