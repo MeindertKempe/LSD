@@ -6,6 +6,7 @@
 #include "move_to_component.h"
 #include "spin_component.h"
 #include "window.h"
+#include "background.h"
 #include <iostream>
 #include <opencv2/highgui.hpp>
 #include <opencv2/imgcodecs.hpp>
@@ -15,6 +16,7 @@
 Window window;
 ControlComponent controller;
 Camera camera;
+Background background;
 std::vector<GameObject *> gameObjects;
 f64 lastFrameTime = 0;
 
@@ -40,11 +42,13 @@ int main(int argc, char *argv[]) {
 void Init() {
 	window.InitializeWindow("Lsd Run", 1280, 720);
 	camera.InitializeCamera(glm::vec3{ 0, 5, 0 });
+	camera.Update(glm::vec3{ 0, 5, 0 });
 
-	for (int i = 0; i < 100; i++) {
+	i32 numberOfLanes = 100;
+	for (i32 i = 0; i < numberOfLanes; i++) {
 		GameObject *lane = new GameObject();
 		lane->AddDrawComponent(new ModelComponent("lane/lane.gltf", "lane_texture.png"));
-		lane->position = glm::vec3(0, 0, i * 10);
+		lane->position = glm::vec3(0, 0, i * 10 - 5);
 		lane->AddComponent(new MoveToComponent(&lane->position));
 		// lane->AddComponent(new SpinComponent(0.0005f));
 		gameObjects.push_back(lane);
@@ -60,6 +64,13 @@ void Init() {
 	coin->AddComponent(new SpinComponent(0.0005f));
 	coin->position = glm::vec3(0.0, 2.0, 0.0);
 	gameObjects.push_back(coin);
+
+	//setup background;
+	std::vector<f32> quad = {-1, -1, -1, 1, 1, -1, 1, 1};
+	background.shader.InitializeShader("background_vertex.glsl", "background_fragment.glsl");
+	background.renderObject.IntializeRenderObject();
+	background.renderObject.BufferData(VERTEX_BUFFER, GL_STATIC_DRAW, quad.data(), quad.size(), sizeof(quad[0]));
+	background.renderObject.AddAttribute(false, true, GL_FLOAT, 2, 0, 0);
 
 	glEnable(GL_DEPTH_TEST);
 	glEnable(GL_BLEND);
@@ -78,15 +89,24 @@ void Update() {
 
 	for (auto gameObject : gameObjects) { gameObject->Update(deltaTime); }
 
-	camera.Update(glm::vec3{ 0, 5, 0 });
+	//camera.Update(glm::vec3{ 0, 5, 0 });
 }
 
 void Render() {
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	glClearColor(0.6, 0.7, 0.8, 1.0);
+	
+	glDepthFunc(GL_LESS);
 
 	glm::mat4 projectionView = camera.GetViewProjectionMatrix();
 	for (auto gameObject : gameObjects) { gameObject->Draw(projectionView); }
+
+	glDepthFunc(GL_EQUAL);
+	
+    background.shader.UseProgram();
+	glUniform2fv(0, 1, glm::value_ptr(glm::vec2(window.WINDOW_WIDTH, window.WINDOW_HEIGHT)));
+	glUniform1f(1, SDL_GetTicks64());
+    background.renderObject.Draw(DRAW_ARRAY, GL_TRIANGLE_STRIP, 4);
 
 	window.SwapBuffers();
 }
