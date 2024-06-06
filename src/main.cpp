@@ -73,36 +73,44 @@ void Init() {
 	gameObjects.push_back(player);
 	std::cout << "Player object initialized successfully." << std::endl;
 
-	for (int i = 0; i < 100; i++) {
+	for (int i = 0; i < 10; i++) {
+		bool makeCoin = false;
+		if (i % 3 == 0) makeCoin = true;
 		randBlock = distBlock(gen);
 
 		GameObject *block = new GameObject();
 		block->AddDrawComponent(new BlockComponent("stone.png"));
 
-//		GameObject *coin = new GameObject();
-//		coin->AddDrawComponent(new ModelComponent("coin/coin.gltf", "coin.png"));
+		GameObject *coin = nullptr;
+		if (makeCoin) {
+			coin = new GameObject();
+			coin->AddDrawComponent(new ModelComponent("coin/coin.gltf", "coin.png"));
+		}
 
 		switch (randBlock) {
 			case 1:
 				block->position = glm::vec3(-3.7, 2.0, i * 20);
-//				coin->position = (randBlock % 2 == 0) ? glm::vec3(0, 3.0, i * 20) : glm::vec3(3.7, 3.0, i * 20);
+				if (makeCoin) coin->position = (randBlock % 2 == 0) ? glm::vec3(0, 3.0, i * 20) : glm::vec3(3.7, 3.0, i * 20);
 				break;
 			case 2:
 				block->position = glm::vec3(0, 2.0, i * 20);
-//				coin->position = (randBlock % 2 == 0) ? glm::vec3(-3.7, 3.0, i * 20) : glm::vec3(3.7, 3.0, i * 20);
+				if (makeCoin) coin->position = (randBlock % 2 == 0) ? glm::vec3(-3.7, 3.0, i * 20) : glm::vec3(3.7, 3.0, i * 20);
 				break;
 			case 3:
 				block->position = glm::vec3(3.7, 2.0, i * 20);
-//				coin->position = (randBlock % 2 == 0) ? glm::vec3(0, 3.0, i * 20) : glm::vec3(-3.7, 3.0, i * 20);
+				if (makeCoin) coin->position = (randBlock % 2 == 0) ? glm::vec3(0, 3.0, i * 20) : glm::vec3(-3.7, 3.0, i * 20);
 				break;
 		}
 
 		block->AddComponent(new MoveToComponent(&block->position));
 		block->scale = glm::vec3(3);
 
-//		coin->AddComponent(new MoveToComponent(&coin->position));
+		if (makeCoin) {
+			coin->AddComponent(new SpinComponent(0.005));
+			coin->AddComponent(new MoveToComponent(&coin->position));
+		}
 
-//		coinObjects.push_back(coin);
+		if (makeCoin) {coinObjects.push_back(coin);}
 		blockObjects.push_back(block);
 
 		std::cout << "Block and coin pair " << i + 1 << " created successfully." << std::endl;
@@ -129,6 +137,14 @@ void Update() {
 		lane->position = glm::vec3(0, 0, 960);
 		lane->AddComponent(new MoveToComponent(&lane->position));
 		laneObjects.push_back(lane);
+	}
+
+	if (blockObjects.front()->position.z <= -10) {
+		blockObjects.erase(blockObjects.begin());
+		randBlock = distBlock(gen);
+		GameObject *block = new GameObject();
+		block->AddDrawComponent(new BlockComponent("stone.png"));
+
 	}
 
 	// Calculate deltaTime
