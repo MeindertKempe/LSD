@@ -1,23 +1,21 @@
 #pragma once
-#include <string>
 #include "dependencies.h"
 #include "glad/glad.h"
+#include <string>
 
-
-
-class Shader{
+class Shader {
 private:
-    u32 programID;
-    u32 GenShader(std::string path, u32 type);
-    std::string LoadShaderFromFile(std::string filePath);
-    void CheckCompileErrors(u32 id, std::string type);
+	u32 programID;
+	u32 GenShader(std::string path, u32 type);
+	std::string LoadShaderFromFile(std::string filePath);
+	void CheckCompileErrors(u32 id, std::string type);
 
 public:
-    Shader();
-    ~Shader();
+	Shader();
+	~Shader();
 
-    void InitializeShader(std::string vertexPath, std::string fragmentPath);
-    void DestroyShader();
-    void UseProgram();
-    u32 GetProgram();
+	void InitializeShader(std::string vertexPath, std::string fragmentPath);
+	void DestroyShader();
+	void UseProgram();
+	u32 GetProgram();
 };

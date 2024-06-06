@@ -1,52 +1,46 @@
 #pragma once
 
-#include <list>
 #include <glm/glm.hpp>
 #include <list>
+#include <vector>
+#include "bounding_box_component.h"
+#include "component.h"
+#include "draw_component.h"
 
-class Component;
-class DrawComponent;
-class BoundingBoxComponent;
+class GameObject {
+	int id;
+	std::vector<GameObject *> *gameObjects;
+	DrawComponent *drawComponent               = nullptr;
+	BoundingBoxComponent *boundingBoxComponent = nullptr;
+	std::list<Component *> components;
 
-class GameObject
-{
-	DrawComponent* drawComponent = nullptr;
-	std::list<Component*> components;
 public:
-	GameObject();
+	GameObject(std::vector<GameObject *> *gameObjects);
 	~GameObject();
 
 	glm::vec3 position = glm::vec3(0);
 	glm::vec3 rotation = glm::vec3(0);
-	glm::vec3 scale = glm::vec3(1,1,1);
+	glm::vec3 scale    = glm::vec3(1, 1, 1);
 
-	void AddComponent(Component* component);
-	std::list<Component*> GetComponents();
+	void AddComponent(Component *component);
+	std::list<Component *> GetComponents();
 	void Update(float elapsedTime);
 	void Draw(glm::mat4 projectioView);
-	void AddDrawComponent(DrawComponent* drawComponent);
+	void AddDrawComponent(DrawComponent *drawComponent);
+	void AddBBComponent(BoundingBoxComponent *bbComponent);
 
-	template<class T>
-	T* GetComponent()
-	{
-		for (auto c : components)
-		{
-			T* t = dynamic_cast<T*>(c);
-			if (t)
-				return t;
+	template <class T> T *GetComponent() {
+		for (auto c : components) {
+			T *t = dynamic_cast<T *>(c);
+			if (t) return t;
 		}
 		return nullptr;
 	}
 
-	template<class T>
-	void RemoveComponent()
-	{
-		components.remove_if([](Component* c) 
-		{
-			T* t = dynamic_cast<T*>(c);
+	template <class T> void RemoveComponent() {
+		components.remove_if([](Component *c) {
+			T *t = dynamic_cast<T *>(c);
 			return t != nullptr;
 		});
 	}
-
 };
-

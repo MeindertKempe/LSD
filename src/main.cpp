@@ -1,4 +1,5 @@
 #define SDL_MAIN_HANDLED
+#include "bounding_box_component.h"
 #include "camera.h"
 #include "control_component.h"
 #include "game_object.h"
@@ -26,7 +27,7 @@ void Render();
 void Close();
 void StartVision();
 
-int main(int argc, char *argv[]) {
+int main(UNUSED int argc, UNUSED char *argv[]) {
 
 	std::thread visionThread(StartVision);
 
@@ -57,12 +58,14 @@ void Init() {
 		gameObjects.push_back(lane);
 	}
 
-	GameObject *player = new GameObject();
+	GameObject *player = new GameObject(&gameObjects);
 	player->AddDrawComponent(new ModelComponent("player/player.gltf", "player.png"));
 	player->position = glm::vec3(0.0, 1.0, 0.0);
+	player->AddBBComponent(
+	    new BoundingBoxComponent(player, glm::vec3(0, 0, 0), glm::vec3(1, 1, 1)));
 	gameObjects.push_back(player);
 
-	GameObject *coin = new GameObject();
+	GameObject *coin = new GameObject(&gameObjects);
 	coin->AddDrawComponent(new ModelComponent("coin/coin.gltf", "coin.png"));
 	coin->AddComponent(new SpinComponent(0.0005f));
 	coin->position = glm::vec3(0.0, 2.0, 0.0);
