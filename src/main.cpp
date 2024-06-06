@@ -21,9 +21,6 @@ ControlComponent controller;
 Camera camera;
 
 std::vector<GameObject *> gameObjects;
-std::vector<GameObject *> laneObjects;
-std::vector<GameObject *> blockObjects;
-std::vector<GameObject *> coinObjects;
 
 Background background;
 f64 lastFrameTime = 0;
@@ -73,64 +70,47 @@ void Init() {
 
 	GameObject *player = new GameObject(&gameObjects);
 	player->AddDrawComponent(new ModelComponent("player/player.gltf", "player.png"));
-	player->position = glm::vec3(0.0, 1.0, 0.0);
+	player->position = glm::vec3(0.0, 1.2, 0.0);
 	player->AddBBComponent(
 	    new BoundingBoxComponent(player, glm::vec3(0, 0, 0), glm::vec3(1, 1, 1)));
+	player->collides = true;
 	gameObjects.push_back(player);
 
-	GameObject *coin = new GameObject(&gameObjects);
+	/*GameObject *coin = new GameObject(&gameObjects);
 	coin->AddDrawComponent(new ModelComponent("coin/coin.gltf", "coin.png"));
 	coin->AddComponent(new SpinComponent(0.0005f));
 	coin->position = glm::vec3(0.0, 2.0, 0.0);
-	gameObjects.push_back(coin);
+	gameObjects.push_back(coin);*/
 
-	for (int i = 0; i < 100; i++) {
-		bool makeCoin = false;
-		if (i % 3 == 0) makeCoin = true;
+	for (int i = 0; i < 50; i++) {
+		i32 laneNumber = std::rand() % 3;
+		GameObject *collidable = new GameObject(&gameObjects);
+		i32 type = std::rand() % 10;
+		if (type > 2){
+			collidable->AddDrawComponent(new ModelComponent("barrel/barrel.gltf", "barrel.png"));
+		} 
+		else {
+			collidable->AddDrawComponent(new ModelComponent("coin/coin.gltf", "coin.png"));
+			collidable->AddComponent(new SpinComponent(0.005));
+		};
 
-		randBlock = distBlock(gen);
-
-		GameObject *block = new GameObject(&gameObjects);
-		block->AddDrawComponent(new BlockComponent("stone.png"));
-
-		GameObject *coin = nullptr;
-		if (makeCoin) {
-			coin = new GameObject(&gameObjects);
-			coin->AddDrawComponent(new ModelComponent("coin/coin.gltf", "coin.png"));
-		}
-
-		switch (randBlock) {
+		switch (laneNumber) {
+			case 0:
+				collidable->position = glm::vec3(-3.7, 1.2, i * 20);
+				break;
 			case 1:
-				block->position = glm::vec3(-3.7, 2.0, i * 20);
-				if (makeCoin)
-					coin->position = (randBlock % 2 == 0) ? glm::vec3(0, 3.0, i * 20)
-					                                      : glm::vec3(3.7, 3.0, i * 20);
+				collidable->position = glm::vec3(0, 1.2, i * 20);
 				break;
 			case 2:
-				block->position = glm::vec3(0, 2.0, i * 20);
-				if (makeCoin)
-					coin->position = (randBlock % 2 == 0) ? glm::vec3(-3.7, 3.0, i * 20)
-					                                      : glm::vec3(3.7, 3.0, i * 20);
-				break;
-			case 3:
-				block->position = glm::vec3(3.7, 2.0, i * 20);
-				if (makeCoin)
-					coin->position = (randBlock % 2 == 0) ? glm::vec3(0, 3.0, i * 20)
-					                                      : glm::vec3(-3.7, 3.0, i * 20);
+				collidable->position = glm::vec3(3.7, 1.2, i * 20);
 				break;
 		}
 
-		block->AddComponent(new MoveToComponent(&block->position));
-		block->scale = glm::vec3(3);
+		collidable->AddComponent(new MoveToComponent(&collidable->position));
+		collidable->AddBBComponent(
+		    new BoundingBoxComponent(collidable, glm::vec3(0, 0, 0), glm::vec3(0.1, 0.1, 0.1)));
 
-		if (makeCoin) {
-			coin->AddComponent(new SpinComponent(0.005));
-			coin->AddComponent(new MoveToComponent(&coin->position));
-		}
-
-		if (makeCoin) { coinObjects.push_back(coin); }
-
-		blockObjects.push_back(block);
+		gameObjects.push_back(collidable);
 	}
 
 	// setup background;
@@ -151,24 +131,6 @@ void Update() {
 	e = window.GetEvent();
 	if (e.type == SDL_QUIT) { window.Quit(); }
 
-	if (!laneObjects.empty() && laneObjects.front()->position.z <= -40) {
-		laneObjects.erase(laneObjects.begin());
-		GameObject *lane = new GameObject(&gameObjects);
-		lane->AddDrawComponent(new ModelComponent("lane/lane.gltf", "lane_texture.png"));
-		lane->position = glm::vec3(0, 0, 960);
-		lane->AddComponent(new MoveToComponent(&lane->position));
-		laneObjects.push_back(lane);
-	}
-
-	if (blockObjects.front()->position.z <= -10) {
-		blockObjects.erase(blockObjects.begin());
-		randBlock         = distBlock(gen);
-		GameObject *block = new GameObject(&gameObjects);
-		block->AddDrawComponent(new BlockComponent("stone.png"));
-	}
-
-
-
 	// Calculate deltaTime
 	f64 currentFrameTime = SDL_GetTicks64();
 	f64 deltaTime        = currentFrameTime - lastFrameTime;
@@ -177,20 +139,6 @@ void Update() {
 	for (auto gameObject : gameObjects) {
 		if (gameObject != nullptr) { gameObject->Update(deltaTime); }
 	}
-
-	for (auto gameObject : laneObjects) {
-		if (gameObject != nullptr) { gameObject->Update(deltaTime); }
-	}
-
-	for (auto gameObject : blockObjects) {
-		if (gameObject != nullptr) { gameObject->Update(deltaTime); }
-	}
-
-	for (auto gameObject : coinObjects) {
-		if (gameObject != nullptr) { gameObject->Update(deltaTime); }
-	}
-
-	camera.Update(glm::vec3{ 0, 7, -5 });
 }
 
 void Render() {
@@ -202,9 +150,6 @@ void Render() {
 	glm::mat4 projectionView = camera.GetViewProjectionMatrix();
 
 	for (auto gameObject : gameObjects) { gameObject->Draw(projectionView); }
-	for (auto gameObject : laneObjects) { gameObject->Draw(projectionView); }
-	for (auto gameObject : blockObjects) { gameObject->Draw(projectionView); }
-	for (auto gameObject : coinObjects) { gameObject->Draw(projectionView); }
 
 	glDepthFunc(GL_EQUAL);
 
@@ -281,8 +226,8 @@ void StartVision() {
 			position = "Unknown";
 		}
 
-		std::cout << "User is in the " << position << " part of the image" << std::endl;
-		std::cout << "User is currently " << action << std::endl;
+		/*std::cout << "User is in the " << position << " part of the image" << std::endl;
+		std::cout << "User is currently " << action << std::endl;*/
 
 		cv::rectangle(img, topRect, cv::Scalar(255, 0, 0), 2);
 		cv::rectangle(img, bottomRect, cv::Scalar(255, 0, 0), 2);

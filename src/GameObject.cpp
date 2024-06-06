@@ -41,12 +41,13 @@ void GameObject::Draw(glm::mat4 projectionView) {
 	modelMatrix           = glm::scale(modelMatrix, scale);
 	drawComponent->Draw(projectionView, modelMatrix);
 
-	if (boundingBoxComponent) {
+	if (collides && boundingBoxComponent) {
 		for (GameObject *gameObject : *gameObjects) {
 			if (!gameObject->boundingBoxComponent) continue;
 			if (gameObject->id == id) continue;
 			if (boundingBoxComponent->collide(*gameObject->boundingBoxComponent)) {
 				printf("collision between %i and %i\n", id, gameObject->id);
+
 			}
 		}
 	}

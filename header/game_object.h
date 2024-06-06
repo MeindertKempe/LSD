@@ -15,6 +15,7 @@ class GameObject {
 	std::list<Component *> components;
 
 public:
+	bool collides = false;
 	GameObject(std::vector<GameObject *> *gameObjects);
 	~GameObject();
 

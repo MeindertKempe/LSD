@@ -15,13 +15,13 @@
     "nodes" : [
         {
             "mesh" : 0,
-            "name" : "coin"
+            "name" : "barrel"
         }
     ],
     "materials" : [
         {
             "doubleSided" : true,
-            "name" : "colormap.005",
+            "name" : "colormap.006",
             "pbrMetallicRoughness" : {
                 "baseColorTexture" : {
                     "index" : 0
@@ -32,7 +32,7 @@
     ],
     "meshes" : [
         {
-            "name" : "coin",
+            "name" : "barrel",
             "primitives" : [
                 {
                     "attributes" : {
@@ -63,58 +63,58 @@
         {
             "bufferView" : 0,
             "componentType" : 5126,
-            "count" : 505,
+            "count" : 309,
             "max" : [
-                1.2450001239776611,
-                2.4583334922790527,
-                0.5000001788139343
+                1.3107646703720093,
+                2.3642544746398926,
+                1.2773691415786743
             ],
             "min" : [
-                -1.2450001239776611,
-                -0.041666626930236816,
-                -0.5000001788139343
+                -1.2773691415786743,
+                -0.01669776439666748,
+                -1.3107646703720093
             ],
             "type" : "VEC3"
         },
         {
             "bufferView" : 1,
             "componentType" : 5126,
-            "count" : 505,
+            "count" : 309,
             "type" : "VEC3"
         },
         {
             "bufferView" : 2,
             "componentType" : 5126,
-            "count" : 505,
+            "count" : 309,
             "type" : "VEC2"
         },
         {
             "bufferView" : 3,
             "componentType" : 5123,
-            "count" : 756,
+            "count" : 444,
             "type" : "SCALAR"
         }
     ],
     "bufferViews" : [
         {
             "buffer" : 0,
-            "byteLength" : 6060,
+            "byteLength" : 3708,
             "byteOffset" : 0
         },
         {
             "buffer" : 0,
-            "byteLength" : 6060,
-            "byteOffset" : 6060
+            "byteLength" : 3708,
+            "byteOffset" : 3708
         },
         {
             "buffer" : 0,
-            "byteLength" : 4040,
-            "byteOffset" : 12120
+            "byteLength" : 2472,
+            "byteOffset" : 7416
         },
         {
             "buffer" : 0,
-            "byteLength" : 1512,
-            "byteOffset" : 16160
+            "byteLength" : 888,
+            "byteOffset" : 9888
         }
     ],
     "samplers" : [
@@ -125,8 +125,8 @@
     ],
     "buffers" : [
         {
-            "byteLength" : 17672,
-            "uri" : "coin.bin"
+            "byteLength" : 10776,
+            "uri" : "barrel.bin"
         }
     ]
 }
