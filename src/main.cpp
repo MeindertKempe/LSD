@@ -21,6 +21,8 @@ Background background;
 std::vector<GameObject *> gameObjects;
 f64 lastFrameTime = 0;
 
+std::thread visionThread;
+
 void Init();
 void Update();
 void Render();
@@ -28,9 +30,6 @@ void Close();
 void StartVision();
 
 int main(UNUSED int argc, UNUSED char *argv[]) {
-
-	std::thread visionThread(StartVision);
-
 	Init();
 	while (!window.WindowShouldClose()) {
 		Update();
@@ -41,6 +40,8 @@ int main(UNUSED int argc, UNUSED char *argv[]) {
 }
 
 void Init() {
+	visionThread = std::thread(StartVision);
+
 	window.InitializeWindow("Lsd Run", 1280, 720);
 	camera.InitializeCamera(glm::vec3{ 0, 5, 0 });
 	camera.Update(glm::vec3{ 0, 5, 0 });
@@ -130,7 +131,7 @@ void StartVision() {
 	cap.read(backgroundImage);
 	cv::imshow("background", backgroundImage);
 
-	while (true) {
+	while (!window.WindowShouldClose()) {
 		cap.read(img);
 
 		cv::subtract(backgroundImage, img, img);
@@ -194,4 +195,7 @@ void StartVision() {
 	}
 }
 
-void Close() { window.DestroyWindow(); }
+void Close() {
+	window.DestroyWindow();
+	visionThread.join();
+}
