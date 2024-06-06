@@ -8,7 +8,7 @@ layout (location = 0) uniform mat4 projectionView;
 layout (location = 1) uniform mat4 transform;
 
 vec3 lightLocation = vec3(25.0,25.0,25.0);
-vec3 ambient = vec3(0.2, 0.3, 0.4);
+vec3 ambient = vec3(0.4, 0.2, 0.2);
 
 out vec2 uv_coords;
 out vec3 shading;

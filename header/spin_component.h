@@ -2,12 +2,13 @@
 
 #include "component.h"
 
-class SpinComponent : public Component {
-	float speed;
+class SpinComponent : public Component
+{
+	f32 speed;
 
 public:
-	SpinComponent(float speed);
+	SpinComponent(f32 speed);
 	~SpinComponent();
 
-	virtual void Update(float elapsedTime) override;
+	virtual void Update(f32 elapsedTime) override;
 };

@@ -15,7 +15,7 @@
     "nodes" : [
         {
             "mesh" : 0,
-            "name" : "Cube"
+            "name" : "Cube.001"
         }
     ],
     "materials" : [
@@ -23,9 +23,6 @@
             "doubleSided" : true,
             "name" : "Material.001",
             "pbrMetallicRoughness" : {
-                "baseColorTexture" : {
-                    "index" : 0
-                },
                 "metallicFactor" : 0,
                 "roughnessFactor" : 0.5
             }
@@ -47,32 +44,19 @@
             ]
         }
     ],
-    "textures" : [
-        {
-            "sampler" : 0,
-            "source" : 0
-        }
-    ],
-    "images" : [
-        {
-            "mimeType" : "image/png",
-            "name" : "lane_texture",
-            "uri" : "textures/lane_texture.png"
-        }
-    ],
     "accessors" : [
         {
             "bufferView" : 0,
             "componentType" : 5126,
-            "count" : 114,
+            "count" : 90,
             "max" : [
                 7.200000286102295,
-                2,
+                2.5999999046325684,
                 5
             ],
             "min" : [
                 -7.200000286102295,
-                -1,
+                1,
                 -5
             ],
             "type" : "VEC3"
@@ -80,53 +64,47 @@
         {
             "bufferView" : 1,
             "componentType" : 5126,
-            "count" : 114,
+            "count" : 90,
             "type" : "VEC3"
         },
         {
             "bufferView" : 2,
             "componentType" : 5126,
-            "count" : 114,
+            "count" : 90,
             "type" : "VEC2"
         },
         {
             "bufferView" : 3,
             "componentType" : 5123,
-            "count" : 180,
+            "count" : 150,
             "type" : "SCALAR"
         }
     ],
     "bufferViews" : [
         {
             "buffer" : 0,
-            "byteLength" : 1368,
+            "byteLength" : 1080,
             "byteOffset" : 0
         },
         {
             "buffer" : 0,
-            "byteLength" : 1368,
-            "byteOffset" : 1368
+            "byteLength" : 1080,
+            "byteOffset" : 1080
         },
         {
             "buffer" : 0,
-            "byteLength" : 912,
-            "byteOffset" : 2736
+            "byteLength" : 720,
+            "byteOffset" : 2160
         },
         {
             "buffer" : 0,
-            "byteLength" : 360,
-            "byteOffset" : 3648
-        }
-    ],
-    "samplers" : [
-        {
-            "magFilter" : 9729,
-            "minFilter" : 9987
+            "byteLength" : 300,
+            "byteOffset" : 2880
         }
     ],
     "buffers" : [
         {
-            "byteLength" : 4008,
+            "byteLength" : 3180,
             "uri" : "lane.bin"
         }
     ]

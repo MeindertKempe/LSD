@@ -5,13 +5,13 @@ Camera::Camera() {}
 
 Camera::~Camera() {}
 
-void Camera::InitializeCamera(glm::vec3 position) {
-	this->position  = position;
-	this->target    = glm::vec3{ 5.0f, 0.0f, 5.0f };
-	this->up        = glm::vec3{ 0.0f, 1.0f, 0.0f };
-	this->fov       = glm::radians(45.0);
-	this->angle     = glm::vec2(0, 0);
-	this->zoomLevel = 12.0f;
+void Camera::InitializeCamera(glm::vec3 position){
+    this->position = position;
+    this->target = glm::vec3{5.0f,0.0f,5.0f};
+    this->up = glm::vec3{0.0f,1.0f,0.0f};
+    this->fov = glm::radians(45.0);
+    this->angle = glm::vec2(glm::radians(180.0f), 0);
+    this->zoomLevel = 12.0f;
 }
 
 void Camera::Update(glm::vec3 targetPosition) {
