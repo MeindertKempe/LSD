@@ -16,6 +16,7 @@ class GameObject {
 
 public:
 	bool collides = false;
+	void (*onCollision)(void);
 	GameObject(std::vector<GameObject *> *gameObjects);
 	~GameObject();
 

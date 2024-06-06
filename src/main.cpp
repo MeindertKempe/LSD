@@ -74,6 +74,7 @@ void Init() {
 	player->AddBBComponent(
 	    new BoundingBoxComponent(player, glm::vec3(0, 0, 0), glm::vec3(1, 1, 1)));
 	player->collides = true;
+	player->onCollision = [] { window.Quit(); };
 	gameObjects.push_back(player);
 
 	/*GameObject *coin = new GameObject(&gameObjects);
