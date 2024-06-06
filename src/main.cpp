@@ -5,6 +5,7 @@
 #include "control_component.h"
 #include "game_object.h"
 #include "model_component.h"
+#include "block_component.h"
 #include "move_to_component.h"
 #include "spin_component.h"
 #include "window.h"
@@ -13,15 +14,23 @@
 #include <opencv2/imgcodecs.hpp>
 #include <opencv2/imgproc.hpp>
 #include <thread>
+#include <random>
 
 Window window;
 ControlComponent controller;
 Camera camera;
-Background background;
+
 std::vector<GameObject *> gameObjects;
+
+Background background;
 f64 lastFrameTime = 0;
 
 std::thread visionThread;
+
+int randBlock;
+std::random_device rd;
+std::mt19937 gen(rd());
+std::uniform_int_distribution<> distBlock(1, 3);
 
 void Init();
 void Update();
@@ -59,24 +68,52 @@ void Init() {
 	}
 
 	GameObject *player = new GameObject(&gameObjects);
-	//-------------
 	player->AddComponent(new ControlComponent());
-	//-------------
 	player->AddDrawComponent(new ModelComponent("player/player.gltf", "player.png"));
-	player->position  = glm::vec3(0.0, 1.0, 0.0);
-	//----------------
 	controller.player = player;
-	// player->scale = glm::vec3(5);
-	//----------------
+	player->position = glm::vec3(0.0, 1.2, 0.0);
 	player->AddBBComponent(
 	    new BoundingBoxComponent(player, glm::vec3(0, 0, 0), glm::vec3(1, 1, 1)));
+	player->collides = true;
+	player->onCollision = [] { window.Quit(); };
 	gameObjects.push_back(player);
 
-	GameObject *coin = new GameObject(&gameObjects);
+	/*GameObject *coin = new GameObject(&gameObjects);
 	coin->AddDrawComponent(new ModelComponent("coin/coin.gltf", "coin.png"));
 	coin->AddComponent(new SpinComponent(0.0005f));
 	coin->position = glm::vec3(0.0, 2.0, 0.0);
-	gameObjects.push_back(coin);
+	gameObjects.push_back(coin);*/
+
+	for (int i = 0; i < 50; i++) {
+		i32 laneNumber = std::rand() % 3;
+		GameObject *collidable = new GameObject(&gameObjects);
+		i32 type = std::rand() % 10;
+		if (type > 2){
+			collidable->AddDrawComponent(new ModelComponent("barrel/barrel.gltf", "barrel.png"));
+		} 
+		else {
+			collidable->AddDrawComponent(new ModelComponent("coin/coin.gltf", "coin.png"));
+			collidable->AddComponent(new SpinComponent(0.005));
+		};
+
+		switch (laneNumber) {
+			case 0:
+				collidable->position = glm::vec3(-3.7, 1.2, i * 20);
+				break;
+			case 1:
+				collidable->position = glm::vec3(0, 1.2, i * 20);
+				break;
+			case 2:
+				collidable->position = glm::vec3(3.7, 1.2, i * 20);
+				break;
+		}
+
+		collidable->AddComponent(new MoveToComponent(&collidable->position));
+		collidable->AddBBComponent(
+		    new BoundingBoxComponent(collidable, glm::vec3(0, 0, 0), glm::vec3(0.1, 0.1, 0.1)));
+
+		gameObjects.push_back(collidable);
+	}
 
 	// setup background;
 	std::vector<f32> quad = { -1, -1, -1, 1, 1, -1, 1, 1 };
@@ -104,7 +141,7 @@ void Update() {
 	f64 currentFrameTime = SDL_GetTicks64();
 	f64 deltaTime        = currentFrameTime - lastFrameTime;
 	lastFrameTime        = currentFrameTime;
-
+  
 	for (auto gameObject : gameObjects) { gameObject->Update(deltaTime); }
 	controller.Update(e);
 }
@@ -116,6 +153,7 @@ void Render() {
 	glDepthFunc(GL_LESS);
 
 	glm::mat4 projectionView = camera.GetViewProjectionMatrix();
+
 	for (auto gameObject : gameObjects) { gameObject->Draw(projectionView); }
 
 	glDepthFunc(GL_EQUAL);
@@ -193,8 +231,8 @@ void StartVision() {
 			position = "Unknown";
 		}
 
-		std::cout << "User is in the " << position << " part of the image" << std::endl;
-		std::cout << "User is currently " << action << std::endl;
+		/*std::cout << "User is in the " << position << " part of the image" << std::endl;
+		std::cout << "User is currently " << action << std::endl;*/
 
 		cv::rectangle(img, topRect, cv::Scalar(255, 0, 0), 2);
 		cv::rectangle(img, bottomRect, cv::Scalar(255, 0, 0), 2);
@@ -207,4 +245,12 @@ void StartVision() {
 void Close() {
 	window.DestroyWindow();
 	visionThread.join();
+#ifdef DEBUG
+	for (GameObject *gameObject : gameObjects) {
+		for (Component *component : gameObject->GetComponents()) { delete component; }
+		delete gameObject->GetBBComponent();
+		delete gameObject->GetDrawComponent();
+		delete gameObject;
+	}
+#endif
 }

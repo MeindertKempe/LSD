@@ -15,6 +15,8 @@ class GameObject {
 	std::list<Component *> components;
 
 public:
+	bool collides = false;
+	void (*onCollision)(void);
 	GameObject(std::vector<GameObject *> *gameObjects);
 	~GameObject();
 
@@ -24,9 +26,12 @@ public:
 
 	void AddComponent(Component *component);
 	std::list<Component *> GetComponents();
+	DrawComponent *GetDrawComponent();
+	BoundingBoxComponent *GetBBComponent();
 	void Update(float elapsedTime);
 	void Draw(glm::mat4 projectioView);
 	void AddDrawComponent(DrawComponent *drawComponent);
+	float GetZ();
 	void AddBBComponent(BoundingBoxComponent *bbComponent);
 
 	template <class T> T *GetComponent() {
