@@ -63,10 +63,10 @@ void Init() {
 	player->AddComponent(new ControlComponent());
 	//-------------
 	player->AddDrawComponent(new ModelComponent("player/player.gltf", "player.png"));
-	player->position = glm::vec3(0.0, 1.0, 0.0);
+	player->position  = glm::vec3(0.0, 1.0, 0.0);
 	//----------------
 	controller.player = player;
-	player->scale = glm::vec3(5);
+	// player->scale = glm::vec3(5);
 	//----------------
 	player->AddBBComponent(
 	    new BoundingBoxComponent(player, glm::vec3(0, 0, 0), glm::vec3(1, 1, 1)));
@@ -94,7 +94,11 @@ void Update() {
 	window.PollEvents();
 	SDL_Event e;
 	e = window.GetEvent();
-	if (e.type == SDL_QUIT) { window.Quit(); }
+	if (e.type == SDL_KEYDOWN && e.key.keysym.sym == SDLK_ESCAPE) {
+		std::cout << "Escape pressed | closing the application"
+		          << "\n";
+		window.Quit();
+	}
 
 	// Calculate deltaTime
 	f64 currentFrameTime = SDL_GetTicks64();
@@ -102,6 +106,7 @@ void Update() {
 	lastFrameTime        = currentFrameTime;
 
 	for (auto gameObject : gameObjects) { gameObject->Update(deltaTime); }
+	controller.Update(e);
 }
 
 void Render() {
