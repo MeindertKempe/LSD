@@ -1,5 +1,5 @@
 #include "SDL.h"
-#include "Timer.h"
+#include "timer.h"
 #include "control_component.h"
 #include "game_object.h"
 

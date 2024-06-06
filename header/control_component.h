@@ -4,7 +4,7 @@
 #include "game_object.h"
 #include "component.h"
 #include "component.h"
-#include "Timer.h"
+#include "timer.h"
 #include "dependencies.h"
 
 using namespace std;
