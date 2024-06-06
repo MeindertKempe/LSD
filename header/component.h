@@ -3,16 +3,15 @@
 
 class GameObject;
 
-class Component
-{
+class Component {
 protected:
-	GameObject* gameObject;
+	GameObject *gameObject;
+
 public:
 	Component();
 	~Component();
 
-	virtual void Update(f32 elapsedTime) {};
+	virtual void Update(f32 elapsedTime){};
 
-	inline void SetGameObject(GameObject* gameObject) { this->gameObject = gameObject; }
+	inline void SetGameObject(GameObject *gameObject) { this->gameObject = gameObject; }
 };
-

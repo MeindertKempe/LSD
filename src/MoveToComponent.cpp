@@ -2,8 +2,7 @@
 #include "move_to_component.h"
 #include <iostream>
 
-MoveToComponent::MoveToComponent(glm::vec3* position) 
-{ target = *position; }
+MoveToComponent::MoveToComponent(glm::vec3 *position) { target = *position; }
 
 MoveToComponent::~MoveToComponent() {}
 

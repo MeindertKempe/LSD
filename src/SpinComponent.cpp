@@ -1,18 +1,8 @@
-#include "spin_component.h"
 #include "game_object.h"
+#include "spin_component.h"
 
+SpinComponent::SpinComponent(float speed) { this->speed = speed; }
 
-SpinComponent::SpinComponent(float speed)
-{
-	this->speed = speed;
-}
+SpinComponent::~SpinComponent() {}
 
-
-SpinComponent::~SpinComponent()
-{
-}
-
-void SpinComponent::Update(float elapsedTime)
-{
-	gameObject->rotation.y += elapsedTime * speed;
-}
+void SpinComponent::Update(float elapsedTime) { gameObject->rotation.y += elapsedTime * speed; }
