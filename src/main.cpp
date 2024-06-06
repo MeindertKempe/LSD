@@ -44,13 +44,16 @@ void Init() {
 	camera.InitializeCamera(glm::vec3{ 0, 5, 0 });
 	camera.Update(glm::vec3{ 0, 5, 0 });
 
-	i32 numberOfLanes = 100;
+	SDL_GL_SetSwapInterval(1);
+
+	i32 numberOfLanes = 1;
 	for (i32 i = 0; i < numberOfLanes; i++) {
 		GameObject *lane = new GameObject();
+		lane->scale.z    = 1000;
 		lane->AddDrawComponent(new ModelComponent("lane/lane.gltf", "lane_texture.png"));
 		lane->position = glm::vec3(0, 0, i * 10 - 5);
 		lane->AddComponent(new MoveToComponent(&lane->position));
-		// lane->AddComponent(new SpinComponent(0.0005f));
+		 //lane->AddComponent(new SpinComponent(0.0005f));
 		gameObjects.push_back(lane);
 	}
 
