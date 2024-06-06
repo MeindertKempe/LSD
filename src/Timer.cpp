@@ -28,6 +28,6 @@ void Timer::Stop() {
 }
 
 u8 Timer::IsStarted() {
-	std::cout << i32(started) << std::endl;
+	//std::cout << i32(started) << std::endl;
 	return started;
 }

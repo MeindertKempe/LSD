@@ -16,12 +16,12 @@ void ControlComponent::Update(SDL_Event e) {
 	if (e.type == SDL_KEYDOWN) {
 		if (e.key.keysym.sym == SDLK_d) {
 			if (player->position.x != -MOVE_AMOUNT) { player->position.x -= MOVE_AMOUNT; }
-			cout << "Action: move right" << endl;
+			//cout << "Action: move right" << endl;
 		}
 
 		else if (e.key.keysym.sym == SDLK_a) {
 			if (player->position.x != MOVE_AMOUNT) { player->position.x += MOVE_AMOUNT; }
-			cout << "Action: move left" << endl;
+			//cout << "Action: move left" << endl;
 		}
 
 		else if (e.key.keysym.sym == SDLK_SPACE) {
@@ -42,13 +42,13 @@ void ControlComponent::Update(SDL_Event e) {
 	}
 
 	if ((!jumpTimer.IsStarted()) && JUMP && (!crouchTimer.IsStarted())) {
-		cout << "Action: jump" << endl;
+		//cout << "Action: jump" << endl;
 		player->position.y -= JUMP_AMOUNT;
 		JUMP                = 0;
 	}
 
 	if ((!crouchTimer.IsStarted()) && CROUCH && (!jumpTimer.IsStarted())) {
-		cout << "Action: crouch" << endl;
+		//cout << "Action: crouch" << endl;
 		player->position.y += JUMP_AMOUNT / 2;
 		CROUCH = 0;
 	}

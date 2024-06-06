@@ -27,11 +27,6 @@ f64 lastFrameTime = 0;
 
 std::thread visionThread;
 
-int randBlock;
-std::random_device rd;
-std::mt19937 gen(rd());
-std::uniform_int_distribution<> distBlock(1, 3);
-
 void Init();
 void Update();
 void Render();
@@ -53,6 +48,7 @@ void Init() {
 
 	window.InitializeWindow("Lsd Run", 1280, 720);
 	camera.InitializeCamera(glm::vec3{ 0, 5, 0 });
+	camera.Update(glm::vec3{ 0, 5, 0 });
 
 	SDL_GL_SetSwapInterval(1);
 
@@ -78,13 +74,7 @@ void Init() {
 	player->onCollision = [] { window.Quit(); };
 	gameObjects.push_back(player);
 
-	/*GameObject *coin = new GameObject(&gameObjects);
-	coin->AddDrawComponent(new ModelComponent("coin/coin.gltf", "coin.png"));
-	coin->AddComponent(new SpinComponent(0.0005f));
-	coin->position = glm::vec3(0.0, 2.0, 0.0);
-	gameObjects.push_back(coin);*/
-
-	for (int i = 0; i < 50; i++) {
+	for (int i = 5; i < 55; i++) {
 		i32 laneNumber = std::rand() % 3;
 		GameObject *collidable = new GameObject(&gameObjects);
 		i32 type = std::rand() % 10;
