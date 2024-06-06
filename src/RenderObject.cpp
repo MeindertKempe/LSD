@@ -52,7 +52,7 @@ void RenderObject::BufferData(BufferType bufferType, i32 usage, void *data, i32 
 }
 
 void RenderObject::AddAttribute(u8 isInstanced, u8 isFloat, i32 attributeType, i32 vectorCount,
-                                i32 stride, i32 offset) {
+                                i32 stride, size_t offset) {
 	glBindVertexArray(vao);
 
 	if (isInstanced) {

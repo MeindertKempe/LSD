@@ -37,17 +37,17 @@ void Model::LoadModel(std::string fileName) {
 	std::vector<float> uvData        = GetVertexData(jsonData["accessors"][uvIndex]);
 	std::vector<glm::vec2> UVs       = PackToVec2(uvData);
 
-	for (i32 i = 0; i < positions.size(); i++) {
-		vertices.push_back(positions[i].z);
-		vertices.push_back(positions[i].y);
+	for (size_t i = 0; i < positions.size(); i++) {
 		vertices.push_back(positions[i].x);
+		vertices.push_back(positions[i].y);
+		vertices.push_back(positions[i].z);
 
-		vertices.push_back(normals[i].z);
-		vertices.push_back(normals[i].y);
 		vertices.push_back(normals[i].x);
+		vertices.push_back(normals[i].y);
+		vertices.push_back(normals[i].z);
 
-		vertices.push_back(UVs[i].x);
 		vertices.push_back(UVs[i].y);
+		vertices.push_back(UVs[i].x);
 	}
 
 	indices = GetIndexData(jsonData["accessors"][indicesIndex]);
@@ -67,7 +67,7 @@ std::vector<f32> Model::GetVertexData(json accessor) {
 	u32 bufferLength = bufferView["byteLength"];
 
 	// index of starting data is the buffer offset + byte offset in buffer
-	for (i32 i = byteOffset; i < byteOffset + bufferLength; i) {
+	for (size_t i = byteOffset; i < byteOffset + bufferLength;) {
 		// One float value is 4 bytes
 		u8 bytes[] = { binaryData[i++], binaryData[i++], binaryData[i++], binaryData[i++] };
 		float value;
@@ -89,7 +89,7 @@ std::vector<u32> Model::GetIndexData(json accessor) {
 	u32 bufferLength = bufferView["byteLength"];
 
 	if (componentType == 5125) {
-		for (i32 i = byteOffset; i < byteOffset + bufferLength; i) {
+		for (size_t i = byteOffset; i < byteOffset + bufferLength;) {
 			// One int value is 4 bytes
 			u8 bytes[] = { binaryData[i++], binaryData[i++], binaryData[i++], binaryData[i++] };
 			u32 value;
@@ -97,7 +97,7 @@ std::vector<u32> Model::GetIndexData(json accessor) {
 			data.push_back(value);
 		}
 	} else if (componentType == 5123) {
-		for (i32 i = byteOffset; i < byteOffset + bufferLength; i) {
+		for (u32 i = byteOffset; i < byteOffset + bufferLength;) {
 			// One short value is 2 bytes
 			u8 bytes[] = { binaryData[i++], binaryData[i++] };
 			u16 value;
@@ -112,8 +112,8 @@ std::vector<u32> Model::GetIndexData(json accessor) {
 std::vector<glm::vec3> Model::PackToVec3(std::vector<f32> floats) {
 	std::vector<glm::vec3> data;
 
-	for (int i = 0; i < floats.size(); i) {
-		data.push_back(glm::vec3(floats[i++], floats[i++], floats[i++]));
+	for (size_t i = 0; i < floats.size(); i += 3) {
+		data.push_back(glm::vec3(floats[i], floats[i + 1], floats[i + 2]));
 	}
 
 	return data;
@@ -122,7 +122,9 @@ std::vector<glm::vec3> Model::PackToVec3(std::vector<f32> floats) {
 std::vector<glm::vec2> Model::PackToVec2(std::vector<f32> floats) {
 	std::vector<glm::vec2> data;
 
-	for (int i = 0; i < floats.size(); i) { data.push_back(glm::vec2(floats[i++], floats[i++])); }
+	for (size_t i = 0; i < floats.size(); i += 2) {
+		data.push_back(glm::vec2(floats[i], floats[i + 1]));
+	}
 
 	return data;
 }

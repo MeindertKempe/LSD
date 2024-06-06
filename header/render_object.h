@@ -50,7 +50,7 @@ public:
 
 	void BufferData(BufferType bufferType, i32 drawType, void *data, i32 dataLength, i32 dataSize);
 	void AddAttribute(u8 isInstanced, u8 isFloat, i32 attributeType, i32 vectorCount, i32 stride,
-	                  i32 offset);
+	                  size_t offset);
 	void Draw(DrawType drawType, i32 primitiveType, i32 count);
 	void DrawIndirect(DrawType drawType, i32 primitiveType, i32 count);
 };

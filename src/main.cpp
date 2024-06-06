@@ -24,7 +24,7 @@ void Render();
 void Close();
 void StartVision();
 
-int main(int argc, char *argv[]) {
+int main(UNUSED int argc, UNUSED char *argv[]) {
 
 	std::thread visionThread(StartVision);
 
