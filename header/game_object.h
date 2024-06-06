@@ -25,6 +25,7 @@ public:
 	void Update(float elapsedTime);
 	void Draw(glm::mat4 projectioView);
 	void AddDrawComponent(DrawComponent* drawComponent);
+	float GetZ();
 
 	template<class T>
 	T* GetComponent()
