@@ -28,6 +28,7 @@ endif()
 add_executable(lsd)
 
 target_sources(lsd PUBLIC "${CMAKE_SOURCE_DIR}/dependencies/src/glad.c"
+                          "src/BoundingBoxComponent.cpp"
                           "src/Window.cpp"
                           "src/Model.cpp"
                           "src/GameObject.cpp"
