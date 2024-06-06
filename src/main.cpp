@@ -53,7 +53,6 @@ void Init() {
 
 	window.InitializeWindow("Lsd Run", 1280, 720);
 	camera.InitializeCamera(glm::vec3{ 0, 5, 0 });
-	camera.Update(glm::vec3{ 0, 5, 0 });
 
 	SDL_GL_SetSwapInterval(1);
 
@@ -69,7 +68,9 @@ void Init() {
 	}
 
 	GameObject *player = new GameObject(&gameObjects);
+	player->AddComponent(new ControlComponent());
 	player->AddDrawComponent(new ModelComponent("player/player.gltf", "player.png"));
+	controller.player = player;
 	player->position = glm::vec3(0.0, 1.2, 0.0);
 	player->AddBBComponent(
 	    new BoundingBoxComponent(player, glm::vec3(0, 0, 0), glm::vec3(1, 1, 1)));
@@ -130,16 +131,19 @@ void Update() {
 	window.PollEvents();
 	SDL_Event e;
 	e = window.GetEvent();
-	if (e.type == SDL_QUIT) { window.Quit(); }
+	if (e.type == SDL_KEYDOWN && e.key.keysym.sym == SDLK_ESCAPE) {
+		std::cout << "Escape pressed | closing the application"
+		          << "\n";
+		window.Quit();
+	}
 
 	// Calculate deltaTime
 	f64 currentFrameTime = SDL_GetTicks64();
 	f64 deltaTime        = currentFrameTime - lastFrameTime;
 	lastFrameTime        = currentFrameTime;
-
-	for (auto gameObject : gameObjects) {
-		if (gameObject != nullptr) { gameObject->Update(deltaTime); }
-	}
+  
+	for (auto gameObject : gameObjects) { gameObject->Update(deltaTime); }
+	controller.Update(e);
 }
 
 void Render() {
