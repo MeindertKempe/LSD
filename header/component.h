@@ -10,7 +10,7 @@ protected:
 
 public:
 	Component(){};
-	~Component(){};
+	virtual ~Component(){};
 
 	virtual void Update(UNUSED f32 elapsedTime){};
 

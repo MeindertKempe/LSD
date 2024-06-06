@@ -24,6 +24,8 @@ public:
 
 	void AddComponent(Component *component);
 	std::list<Component *> GetComponents();
+	DrawComponent *GetDrawComponent();
+	BoundingBoxComponent *GetBBComponent();
 	void Update(float elapsedTime);
 	void Draw(glm::mat4 projectioView);
 	void AddDrawComponent(DrawComponent *drawComponent);

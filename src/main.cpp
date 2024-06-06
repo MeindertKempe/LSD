@@ -198,4 +198,12 @@ void StartVision() {
 void Close() {
 	window.DestroyWindow();
 	visionThread.join();
+#ifdef DEBUG
+	for (GameObject *gameObject : gameObjects) {
+		for (Component *component : gameObject->GetComponents()) { delete component; }
+		delete gameObject->GetBBComponent();
+		delete gameObject->GetDrawComponent();
+		delete gameObject;
+	}
+#endif
 }

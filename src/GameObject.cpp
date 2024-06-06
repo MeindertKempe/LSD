@@ -26,6 +26,10 @@ void GameObject::AddBBComponent(BoundingBoxComponent *bbComponent) {
 
 std::list<Component *> GameObject::GetComponents() { return components; }
 
+DrawComponent *GameObject::GetDrawComponent() { return drawComponent; }
+
+BoundingBoxComponent *GameObject::GetBBComponent() { return boundingBoxComponent; }
+
 void GameObject::Draw(glm::mat4 projectionView) {
 	if (!drawComponent) return;
 
