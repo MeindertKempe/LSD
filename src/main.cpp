@@ -5,7 +5,6 @@
 #include "control_component.h"
 #include "game_object.h"
 #include "model_component.h"
-#include "block_component.h"
 #include "move_to_component.h"
 #include "spin_component.h"
 #include "window.h"
@@ -133,7 +132,7 @@ void Update() {
 	lastFrameTime        = currentFrameTime;
   
 	for (auto gameObject : gameObjects) { gameObject->Update(deltaTime); }
-	controller.Update(e);
+	//controller.Update(e);
 }
 
 void Render() {
@@ -208,15 +207,19 @@ void StartVision() {
 			action = "doing nothing";
 		} else if (bottomSum < 2000) {
 			action = "jumping";
+			//controller.UpdateAction(ControlComponent::JUMP);
 		}
 
 		std::string position;
 		if (leftSum > middleSum && leftSum > rightSum) {
 			position = "Left";
+			controller.UpdateAction(ControlComponent::RIGHT);
 		} else if (middleSum > leftSum && middleSum > rightSum) {
 			position = "Middle";
+			controller.UpdateAction(ControlComponent::MIDDLE);
 		} else if (rightSum > leftSum && rightSum > middleSum) {
 			position = "Right";
+			controller.UpdateAction(ControlComponent::LEFT);
 		} else {
 			position = "Unknown";
 		}

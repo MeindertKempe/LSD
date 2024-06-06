@@ -40,6 +40,10 @@ void GameObject::Draw(glm::mat4 projectionView) {
 	modelMatrix           = glm::rotate(modelMatrix, rotation.z, glm::vec3(0, 0, 1));
 	modelMatrix           = glm::scale(modelMatrix, scale);
 	drawComponent->Draw(projectionView, modelMatrix);
+}
+
+void GameObject::Update(float elapsedTime) {
+	for (auto &c : components) c->Update(elapsedTime);
 
 	if (collides && boundingBoxComponent) {
 		for (GameObject *gameObject : *gameObjects) {
@@ -50,8 +54,4 @@ void GameObject::Draw(glm::mat4 projectionView) {
 			}
 		}
 	}
-}
-
-void GameObject::Update(float elapsedTime) {
-	for (auto &c : components) c->Update(elapsedTime);
 }
