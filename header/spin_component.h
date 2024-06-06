@@ -2,8 +2,7 @@
 
 #include "component.h"
 
-class SpinComponent : public Component
-{
+class SpinComponent : public Component {
 	f32 speed;
 
 public:

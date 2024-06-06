@@ -1,11 +1,11 @@
 #pragma once
 
-#include <glm/glm.hpp>
-#include <list>
-#include <vector>
 #include "bounding_box_component.h"
 #include "component.h"
 #include "draw_component.h"
+#include <glm/glm.hpp>
+#include <list>
+#include <vector>
 
 class GameObject {
 	int id;
