@@ -49,7 +49,7 @@ void Init() {
 
 	i32 numberOfLanes = 1;
 	for (i32 i = 0; i < numberOfLanes; i++) {
-		GameObject *lane = new GameObject();
+		GameObject *lane = new GameObject(&gameObjects);
 		lane->scale.z    = 1000;
 		lane->AddDrawComponent(new ModelComponent("lane/lane.gltf", "lane_texture.png"));
 		lane->position = glm::vec3(0, 0, i * 10 - 5);
