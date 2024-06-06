@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.0)
+cmake_minimum_required(VERSION 3.13.0)
 
 project(lsd)
 
@@ -27,8 +27,19 @@ endif()
 
 add_executable(lsd)
 
-file(GLOB_RECURSE sources src/*.cpp)
-target_sources(lsd PUBLIC ${sources} "${CMAKE_SOURCE_DIR}/dependencies/src/glad.c")
+target_sources(lsd PUBLIC "${CMAKE_SOURCE_DIR}/dependencies/src/glad.c"
+                          "src/Window.cpp"
+                          "src/Model.cpp"
+                          "src/GameObject.cpp"
+                          "src/MoveToComponent.cpp"
+                          "src/Shader.cpp"
+                          "src/ControlComponent.cpp"
+                          "src/main.cpp"
+                          "src/SpinComponent.cpp"
+                          "src/ModelComponent.cpp"
+                          "src/Camera.cpp"
+                          "src/RenderObject.cpp"
+                          "src/Texture.cpp")
 
 add_custom_target(copy_resources ALL
     COMMAND ${CMAKE_COMMAND} -E copy_directory
