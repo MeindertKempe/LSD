@@ -2,7 +2,7 @@
 #include "game_object.h"
 
 
-SpinComponent::SpinComponent(float speed)
+SpinComponent::SpinComponent(f32 speed)
 {
 	this->speed = speed;
 }
@@ -12,7 +12,7 @@ SpinComponent::~SpinComponent()
 {
 }
 
-void SpinComponent::Update(float elapsedTime)
+void SpinComponent::Update(f32 elapsedTime)
 {
 	gameObject->rotation.y += elapsedTime * speed;
 }

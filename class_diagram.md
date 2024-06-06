@@ -56,6 +56,19 @@ classDiagram
         +virtual Draw()
     }
 
+    class MoveToComponent{
+        
+    }
+
+    class ControlComponent{
+        speed : f32
+
+    }
+
+    class BoundingBoxComponent{
+
+    }
+
     class ModelComponent{
         - shader : Shader
         - texture : Texture
