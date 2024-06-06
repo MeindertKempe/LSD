@@ -29,6 +29,7 @@ public:
 	void Update(float elapsedTime);
 	void Draw(glm::mat4 projectioView);
 	void AddDrawComponent(DrawComponent *drawComponent);
+	float GetZ();
 	void AddBBComponent(BoundingBoxComponent *bbComponent);
 
 	template <class T> T *GetComponent() {

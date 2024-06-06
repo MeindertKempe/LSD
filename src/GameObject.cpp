@@ -39,7 +39,6 @@ void GameObject::Draw(glm::mat4 projectionView) {
 	modelMatrix           = glm::rotate(modelMatrix, rotation.y, glm::vec3(0, 1, 0));
 	modelMatrix           = glm::rotate(modelMatrix, rotation.z, glm::vec3(0, 0, 1));
 	modelMatrix           = glm::scale(modelMatrix, scale);
-
 	drawComponent->Draw(projectionView, modelMatrix);
 
 	if (boundingBoxComponent) {
