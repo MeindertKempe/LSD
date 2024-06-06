@@ -44,7 +44,6 @@ void Init() {
 
 	window.InitializeWindow("Lsd Run", 1280, 720);
 	camera.InitializeCamera(glm::vec3{ 0, 5, 0 });
-	camera.Update(glm::vec3{ 0, 5, 0 });
 
 	SDL_GL_SetSwapInterval(1);
 
@@ -60,8 +59,15 @@ void Init() {
 	}
 
 	GameObject *player = new GameObject(&gameObjects);
+	//-------------
+	player->AddComponent(new ControlComponent());
+	//-------------
 	player->AddDrawComponent(new ModelComponent("player/player.gltf", "player.png"));
 	player->position = glm::vec3(0.0, 1.0, 0.0);
+	//----------------
+	controller.player = player;
+	player->scale = glm::vec3(5);
+	//----------------
 	player->AddBBComponent(
 	    new BoundingBoxComponent(player, glm::vec3(0, 0, 0), glm::vec3(1, 1, 1)));
 	gameObjects.push_back(player);
@@ -96,8 +102,6 @@ void Update() {
 	lastFrameTime        = currentFrameTime;
 
 	for (auto gameObject : gameObjects) { gameObject->Update(deltaTime); }
-
-	// camera.Update(glm::vec3{ 0, 5, 0 });
 }
 
 void Render() {
