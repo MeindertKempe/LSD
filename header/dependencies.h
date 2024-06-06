@@ -1,6 +1,6 @@
 #pragma once
 
-//when talking about bytes.
+// when talking about bytes.
 typedef unsigned char u8;
 typedef char i8;
 typedef unsigned short u16;
@@ -11,4 +11,3 @@ typedef unsigned long long u64;
 typedef long long i64;
 typedef float f32;
 typedef double f64;
-

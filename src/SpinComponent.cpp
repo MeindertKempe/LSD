@@ -1,12 +1,10 @@
-#include "spin_component.h"
 #include "game_object.h"
-
+#include "spin_component.h"
 
 SpinComponent::SpinComponent(f32 speed)
 {
 	this->speed = speed;
 }
-
 
 SpinComponent::~SpinComponent()
 {

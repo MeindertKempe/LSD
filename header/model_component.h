@@ -1,17 +1,16 @@
 #pragma once
 #include "draw_component.h"
-#include "shader.h"
 #include "model.h"
 #include "render_object.h"
+#include "shader.h"
 #include "texture.h"
 
-class ModelComponent : public DrawComponent
-{
+class ModelComponent : public DrawComponent {
 private:
-    Shader shader;
-    Texture texture;
-    RenderObject renderObject;
-    Model model;
+	Shader shader;
+	Texture texture;
+	RenderObject renderObject;
+	Model model;
 
 public:
 	ModelComponent(std::string modelPath, std::string texturePath);

@@ -1,7 +1,7 @@
 #pragma once
+#include "SDL.h"
 #include "dependencies.h"
 #include "glad/glad.h"
-#include "SDL.h"
 #include <string>
 
 class Window{
@@ -24,5 +24,5 @@ class Window{
     i32 WINDOW_WIDTH;
     i32 WINDOW_HEIGHT;
 
-    SDL_Event GetEvent();
+	SDL_Event GetEvent();
 };
