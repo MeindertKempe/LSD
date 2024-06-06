@@ -46,11 +46,10 @@ void Init() {
 
 	SDL_GL_SetSwapInterval(1);
 
-	i32 numberOfLanes = 1;
+	i32 numberOfLanes = 10;
 	for (i32 i = 0; i < numberOfLanes; i++) {
 		GameObject *lane = new GameObject();
-		lane->scale.z    = 1000;
-		lane->AddDrawComponent(new ModelComponent("lane/lane.gltf", "lane_texture.png"));
+		lane->AddDrawComponent(new ModelComponent("lane/lane.gltf", "colormap.png"));
 		lane->position = glm::vec3(0, 0, i * 10 - 5);
 		lane->AddComponent(new MoveToComponent(&lane->position));
 		 //lane->AddComponent(new SpinComponent(0.0005f));
