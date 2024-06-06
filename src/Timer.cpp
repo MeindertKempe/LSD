@@ -14,7 +14,9 @@ void Timer::Count() {
 	if (started) {
 		double tempTime = SDL_GetTicks64();
 		timePassed      = tempTime - startTime;
-		if (timePassed >= timeout) { Stop(); }
+		if (timePassed >= timeout) {
+			Stop();
+		}
 	}
 }
 
@@ -25,4 +27,7 @@ void Timer::Stop() {
 	timeout    = 0;
 }
 
-u8 Timer::IsStarted() { return started; }
+u8 Timer::IsStarted() {
+	std::cout << i32(started) << std::endl;
+	return started;
+}

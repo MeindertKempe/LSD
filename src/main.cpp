@@ -90,7 +90,7 @@ void Update(){
     }
 
 	camera.Update(glm::vec3{0,7,-5});
-	controller.CheckKeyPress(e);
+	controller.Update(e);
 }
 
 void Render(){

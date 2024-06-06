@@ -12,16 +12,19 @@ using namespace std;
 class ControlComponent : public Component {
 	public:
 		GameObject *player;
-		ControlComponent() {};
-		ControlComponent(GameObject* player) : player{player} {};
-		void CheckKeyPress(SDL_Event e);
-
-		enum laneState { leftLane, middleLane, rightLane };
-		enum moves { jump, crouch, none };
-
-		laneState currLaneState;
-		moves currMoveState;
-		Timer timer;
+		
+		i32 JUMP = 0;
+		i32 CROUCH = 0;
 		ControlComponent();
-		virtual void Update(float elapsedTime) override;
+		ControlComponent(GameObject* player) : player{player} {};
+
+		// enum laneState { leftLane, middleLane, rightLane };
+		// enum moves { jump, crouch, none };
+
+		// laneState currLaneState;
+		// moves currMoveState;
+		Timer jumpTimer;
+		Timer crouchTimer;
+
+		void Update(SDL_Event e);
 };
