@@ -47,6 +47,7 @@ void Init(){
 
 	GameObject* player = new GameObject();
 	//controller.player = player;
+	player->AddComponent(new ControlComponent());
 	player->AddDrawComponent(new ModelComponent("player/player.gltf", "player.png"));
 	controller.player = player;
 	player->AddComponent(&controller);
@@ -90,7 +91,6 @@ void Update(){
 
 	camera.Update(glm::vec3{0,7,-5});
 	controller.CheckKeyPress(e);
-	
 }
 
 void Render(){
