@@ -29,11 +29,14 @@ f64 lastFrameTime = 0;
 std::thread visionThread;
 std::thread audioThread;
 
+int score;
+
 void Init();
 void Update();
 void Render();
 void Close();
 void StartVision();
+void onCollision(GameObject &gameObject);
 void PlayAudio();
 
 int main(UNUSED int argc, UNUSED char *argv[]) {
@@ -74,9 +77,9 @@ void Init() {
 	controller.player = player;
 	player->position  = glm::vec3(0.0, 1.2, 0.0);
 	player->AddBBComponent(
-	    new BoundingBoxComponent(player, glm::vec3(0, 0, 0), glm::vec3(1, 1, 1)));
+	    new BoundingBoxComponent(player, glm::vec3(0, 0, 0), glm::vec3(1, 3, 1)));
 	player->collides    = true;
-	player->onCollision = [] { window.Quit(); };
+	player->onCollision = [](GameObject &gameObject) { onCollision(gameObject); };
 	gameObjects.push_back(player);
 
 	for (int i = 5; i < 55; i++) {
@@ -85,8 +88,10 @@ void Init() {
 		i32 type               = std::rand() % 10;
 		if (type > 2) {
 			collidable->AddDrawComponent(new ModelComponent("barrel/barrel.gltf", "barrel.png"));
+			collidable->score = -1;
 		} else {
 			collidable->AddDrawComponent(new ModelComponent("coin/coin.gltf", "coin.png"));
+			collidable->score = 1;
 			collidable->AddComponent(new SpinComponent(0.005));
 		};
 
@@ -98,9 +103,11 @@ void Init() {
 
 		collidable->AddComponent(new MoveToComponent(&collidable->position));
 		collidable->AddBBComponent(
-		    new BoundingBoxComponent(collidable, glm::vec3(0, 0, 0), glm::vec3(0.1, 0.1, 0.1)));
+		    new BoundingBoxComponent(collidable, glm::vec3(0, 0, 0), glm::vec3(1, 1, 1)));
 
 		gameObjects.push_back(collidable);
+
+		score = 0;
 	}
 
 	// setup background;
@@ -160,7 +167,7 @@ void StartVision() {
 
 	cv::Mat img, backgroundImage;
 
-	// 10 sec for the user to get out of the way
+	// 1 sec for the user to get out of the way
 	std::cout << "Ga voor de camera weg";
 	std::this_thread::sleep_for(1s);
 
@@ -203,11 +210,12 @@ void StartVision() {
 		std::string action;
 		if (topSum < 10000) {
 			action = "crouching";
+			controller.UpdateAction(ControlComponent::CROUCH);
 		} else if (topSum > 10000 && bottomSum > 2000) {
 			action = "doing nothing";
 		} else if (bottomSum < 2000) {
 			action = "jumping";
-			// controller.UpdateAction(ControlComponent::JUMP);
+			controller.UpdateAction(ControlComponent::JUMP);
 		}
 
 		std::string position;
@@ -224,8 +232,8 @@ void StartVision() {
 			position = "Unknown";
 		}
 
-		/*std::cout << "User is in the " << position << " part of the image" << std::endl;
-		std::cout << "User is currently " << action << std::endl;*/
+		// std::cout << "User is in the " << position << " part of the image" << std::endl;
+		// std::cout << "User is currently " << action << std::endl;
 
 		cv::rectangle(img, topRect, cv::Scalar(255, 0, 0), 2);
 		cv::rectangle(img, bottomRect, cv::Scalar(255, 0, 0), 2);
@@ -242,11 +250,17 @@ void Close() {
 	visionThread.join();
 	audioThread.join();
 #ifdef DEBUG
-	for (GameObject *gameObject : gameObjects) {
-		for (Component *component : gameObject->GetComponents()) { delete component; }
-		delete gameObject->GetBBComponent();
-		delete gameObject->GetDrawComponent();
-		delete gameObject;
-	}
+	for (GameObject *gameObject : gameObjects) { delete gameObject; }
 #endif
+}
+
+void onCollision(GameObject &gameObject) {
+	if (gameObject.score < 0) { window.Quit(); }
+	if (gameObject.score > 0) {
+		score += gameObject.score;
+		for (int i = 0; i < gameObjects.size(); i++) {
+			if (gameObjects[i]->id == gameObject.id) gameObjects.erase(gameObjects.begin() + i);
+		}
+	}
+	cout << "Je score is: " << score << endl;
 }

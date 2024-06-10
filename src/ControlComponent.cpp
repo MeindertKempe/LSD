@@ -16,12 +16,10 @@ void ControlComponent::Update(SDL_Event e) {
 	if (e.type == SDL_KEYDOWN) {
 		if (e.key.keysym.sym == SDLK_d) {
 			if (player->position.x != -MOVE_AMOUNT) { player->position.x -= MOVE_AMOUNT; }
-			// cout << "Action: move right" << endl;
 		}
 
 		else if (e.key.keysym.sym == SDLK_a) {
 			if (player->position.x != MOVE_AMOUNT) { player->position.x += MOVE_AMOUNT; }
-			// cout << "Action: move left" << endl;
 		}
 
 		else if (e.key.keysym.sym == SDLK_SPACE) {
@@ -44,14 +42,11 @@ void ControlComponent::Update(SDL_Event e) {
 	}
 
 	if ((!jumpTimer.IsStarted()) && JUMP && (!crouchTimer.IsStarted())) {
-		// cout << "Action: jump" << endl;
 		player->position.y -= JUMP_AMOUNT;
 		JUMPPING            = 0;
 	}
 
-	// This not working! TODO: fix
 	if ((!crouchTimer.IsStarted()) && CROUCH && (!jumpTimer.IsStarted())) {
-		// cout << "Action: crouch" << endl;
 		player->position.y += JUMP_AMOUNT / 2;
 		CROUCHING           = 0;
 	}
@@ -61,13 +56,20 @@ void ControlComponent::Update(SDL_Event e) {
 }
 
 void ControlComponent::UpdateAction(enum action action) {
-	const float MOVE_AMOUNT = 3.5f;
+	const float MOVE_AMOUNT = 3.7f;
 	const float JUMP_AMOUNT = 2.0f;
 
 	switch (action) {
-		case ControlComponent::RIGHT: player->position.x = -MOVE_AMOUNT; break;
-		case ControlComponent::LEFT: player->position.x = MOVE_AMOUNT; break;
-		case ControlComponent::MIDDLE: player->position.x = 0; break;
+		case ControlComponent::RIGHT: 
+			player->position.x = -MOVE_AMOUNT; 
+			break;
+		case ControlComponent::LEFT: 
+			player->position.x = MOVE_AMOUNT; 
+			break;
+		case ControlComponent::MIDDLE:	
+			player->position.x = 0;
+			break;
+
 		case ControlComponent::JUMP:
 			if (!jumpTimer.IsStarted() && (!crouchTimer.IsStarted()) &&
 			    (player->position.y <= JUMP_AMOUNT)) {
@@ -87,18 +89,15 @@ void ControlComponent::UpdateAction(enum action action) {
 		default: break;
 	}
 
-	/*if ((!jumpTimer.IsStarted()) && JUMP && (!crouchTimer.IsStarted())) {
-	     cout << "Action: jump" << endl;
-	    player->position.y -= JUMP_AMOUNT;
-	    JUMPPING                = 0;
-	}*/
+	if ((!jumpTimer.IsStarted()) && JUMP && (!crouchTimer.IsStarted())) {
+		player->position.y = JUMP_AMOUNT;
+		JUMPPING                = 0;
+	}
 
-	// This not working! TODO: fix
-	// if ((!crouchTimer.IsStarted()) && CROUCH && (!jumpTimer.IsStarted())) {
-	//	// cout << "Action: crouch" << endl;
-	//	player->position.y += JUMP_AMOUNT / 2;
-	//	CROUCHING              = 0;
-	//}
+	if ((!crouchTimer.IsStarted()) && CROUCH && (!jumpTimer.IsStarted())) {
+		player->position.y = JUMP_AMOUNT / 2;
+		CROUCHING              = 0;
+	}
 
 	jumpTimer.Count();
 	crouchTimer.Count();
