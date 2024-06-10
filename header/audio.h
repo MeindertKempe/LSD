@@ -6,7 +6,8 @@
 //
 
 class Audio {
-    ma_engine engine;
+	ma_engine engine;
+
 public:
 	Audio();
 	~Audio();

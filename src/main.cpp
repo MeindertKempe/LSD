@@ -1,4 +1,5 @@
 #define SDL_MAIN_HANDLED
+#include "audio.h"
 #include "background.h"
 #include "bounding_box_component.h"
 #include "camera.h"
@@ -8,7 +9,6 @@
 #include "move_to_component.h"
 #include "spin_component.h"
 #include "window.h"
-#include "audio.h"
 #include <iostream>
 #include <opencv2/highgui.hpp>
 #include <opencv2/imgcodecs.hpp>
@@ -35,7 +35,6 @@ void Render();
 void Close();
 void StartVision();
 void PlayAudio();
-
 
 int main(UNUSED int argc, UNUSED char *argv[]) {
 	Init();
@@ -236,13 +235,7 @@ void StartVision() {
 	}
 }
 
-void PlayAudio() {  
-	audio.playBGM();
-	
-	//if (hit coin) {
-	//	// audio.playCoin();
-	//}
-}
+void PlayAudio() { audio.playBGM(); }
 
 void Close() {
 	window.DestroyWindow();
