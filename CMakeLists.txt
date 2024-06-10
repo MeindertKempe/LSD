@@ -45,7 +45,8 @@ target_sources(lsd PUBLIC "${CMAKE_SOURCE_DIR}/dependencies/src/glad.c"
                           "src/Camera.cpp"
                           "src/RenderObject.cpp"
                           "src/Texture.cpp"
-                          "src/Timer.cpp")
+                          "src/Timer.cpp"
+                          "src/Audio.cpp")
 
 add_custom_target(copy_resources ALL
     COMMAND ${CMAKE_COMMAND} -E copy_directory
