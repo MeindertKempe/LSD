@@ -1,4 +1,5 @@
 #define SDL_MAIN_HANDLED
+#include "audio.h"
 #include "background.h"
 #include "bounding_box_component.h"
 #include "camera.h"
@@ -18,6 +19,7 @@
 Window window;
 ControlComponent controller;
 Camera camera;
+Audio audio;
 
 std::vector<GameObject *> gameObjects;
 
@@ -25,12 +27,14 @@ Background background;
 f64 lastFrameTime = 0;
 
 std::thread visionThread;
+std::thread audioThread;
 
 void Init();
 void Update();
 void Render();
 void Close();
 void StartVision();
+void PlayAudio();
 
 int main(UNUSED int argc, UNUSED char *argv[]) {
 	Init();
@@ -43,7 +47,10 @@ int main(UNUSED int argc, UNUSED char *argv[]) {
 }
 
 void Init() {
+	audio.initEngine();
+
 	visionThread = std::thread(StartVision);
+	audioThread  = std::thread(PlayAudio);
 
 	window.InitializeWindow("Lsd Run", 1280, 720);
 	camera.InitializeCamera(glm::vec3{ 0, 5, 0 });
@@ -228,9 +235,12 @@ void StartVision() {
 	}
 }
 
+void PlayAudio() { audio.playBGM(); }
+
 void Close() {
 	window.DestroyWindow();
 	visionThread.join();
+	audioThread.join();
 #ifdef DEBUG
 	for (GameObject *gameObject : gameObjects) {
 		for (Component *component : gameObject->GetComponents()) { delete component; }
