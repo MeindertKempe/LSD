@@ -86,13 +86,22 @@ void Init() {
 		i32 laneNumber         = std::rand() % 3;
 		GameObject *collidable = new GameObject(&gameObjects);
 		i32 type               = std::rand() % 10;
-		if (type > 2) {
+		if (type > 7) {
+			collidable->AddDrawComponent(new ModelComponent("beam/beam.gltf", "beam.png"));
+			collidable->score = -1;
+			collidable->AddBBComponent(
+			    new BoundingBoxComponent(collidable, glm::vec3(0, 2, 0), glm::vec3(1, 1, 1)));
+		} else if (type > 2) {
 			collidable->AddDrawComponent(new ModelComponent("barrel/barrel.gltf", "barrel.png"));
 			collidable->score = -1;
+			collidable->AddBBComponent(
+			    new BoundingBoxComponent(collidable, glm::vec3(0, 0, 0), glm::vec3(1, 1, 1)));
 		} else {
 			collidable->AddDrawComponent(new ModelComponent("coin/coin.gltf", "coin.png"));
 			collidable->score = 1;
 			collidable->AddComponent(new SpinComponent(0.005));
+			collidable->AddBBComponent(
+			    new BoundingBoxComponent(collidable, glm::vec3(0, 0, 0), glm::vec3(1, 1, 1)));
 		};
 
 		switch (laneNumber) {
@@ -102,8 +111,6 @@ void Init() {
 		}
 
 		collidable->AddComponent(new MoveToComponent(&collidable->position));
-		collidable->AddBBComponent(
-		    new BoundingBoxComponent(collidable, glm::vec3(0, 0, 0), glm::vec3(1, 1, 1)));
 
 		gameObjects.push_back(collidable);
 
