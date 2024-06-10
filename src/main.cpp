@@ -70,7 +70,7 @@ void Init() {
 	player->AddBBComponent(
 	    new BoundingBoxComponent(player, glm::vec3(0, 0, 0), glm::vec3(1, 1, 1)));
 	player->collides = true;
-	player->onCollision = [] { window.Quit(); };
+	//player->onCollision = [] { window.Quit(); };
 	gameObjects.push_back(player);
 
 	for (int i = 5; i < 55; i++) {
@@ -160,7 +160,7 @@ void StartVision() {
 
 	cv::Mat img, backgroundImage;
 
-	// 10 sec for the user to get out of the way
+	// 1 sec for the user to get out of the way
 	std::cout << "Ga voor de camera weg";
 	std::this_thread::sleep_for(1s);
 
@@ -203,11 +203,12 @@ void StartVision() {
 		std::string action;
 		if (topSum < 10000) {
 			action = "crouching";
+			controller.UpdateAction(ControlComponent::CROUCH);
 		} else if (topSum > 10000 && bottomSum > 2000) {
 			action = "doing nothing";
 		} else if (bottomSum < 2000) {
 			action = "jumping";
-			//controller.UpdateAction(ControlComponent::JUMP);
+			controller.UpdateAction(ControlComponent::JUMP);
 		}
 
 		std::string position;
@@ -224,8 +225,8 @@ void StartVision() {
 			position = "Unknown";
 		}
 
-		/*std::cout << "User is in the " << position << " part of the image" << std::endl;
-		std::cout << "User is currently " << action << std::endl;*/
+		//std::cout << "User is in the " << position << " part of the image" << std::endl;
+		//std::cout << "User is currently " << action << std::endl;
 
 		cv::rectangle(img, topRect, cv::Scalar(255, 0, 0), 2);
 		cv::rectangle(img, bottomRect, cv::Scalar(255, 0, 0), 2);
