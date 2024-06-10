@@ -1,7 +1,7 @@
 #include "SDL.h"
-#include "timer.h"
 #include "control_component.h"
 #include "game_object.h"
+#include "timer.h"
 
 #include <iostream>
 
@@ -23,30 +23,32 @@ void ControlComponent::Update(SDL_Event e) {
 		}
 
 		else if (e.key.keysym.sym == SDLK_SPACE) {
-			if (!jumpTimer.IsStarted() && (!crouchTimer.IsStarted()) && (player->position.y <= JUMP_AMOUNT)) {
+			if (!jumpTimer.IsStarted() && (!crouchTimer.IsStarted()) &&
+			    (player->position.y <= JUMP_AMOUNT)) {
 				jumpTimer.Start(0.5);
 				player->position.y += JUMP_AMOUNT;
-				JUMPPING = 1;
+				JUMPPING            = 1;
 			}
 		}
 
 		else if (e.key.keysym.sym == SDLK_LCTRL) {
-			if (!crouchTimer.IsStarted() && (!jumpTimer.IsStarted()) && (player->position.y == JUMP_AMOUNT / 2)) {
+			if (!crouchTimer.IsStarted() && (!jumpTimer.IsStarted()) &&
+			    (player->position.y == JUMP_AMOUNT / 2)) {
 				crouchTimer.Start(0.5);
 				player->position.y -= JUMP_AMOUNT / 2;
-				CROUCHING              = 1;
+				CROUCHING           = 1;
 			}
 		}
 	}
 
 	if ((!jumpTimer.IsStarted()) && JUMP && (!crouchTimer.IsStarted())) {
 		player->position.y -= JUMP_AMOUNT;
-		JUMPPING                = 0;
+		JUMPPING            = 0;
 	}
 
 	if ((!crouchTimer.IsStarted()) && CROUCH && (!jumpTimer.IsStarted())) {
 		player->position.y += JUMP_AMOUNT / 2;
-		CROUCHING = 0;
+		CROUCHING           = 0;
 	}
 
 	jumpTimer.Count();
@@ -67,12 +69,13 @@ void ControlComponent::UpdateAction(enum action action) {
 		case ControlComponent::MIDDLE:	
 			player->position.x = 0;
 			break;
+
 		case ControlComponent::JUMP:
 			if (!jumpTimer.IsStarted() && (!crouchTimer.IsStarted()) &&
 			    (player->position.y <= JUMP_AMOUNT)) {
 				jumpTimer.Start(0.5);
 				player->position.y += JUMP_AMOUNT;
-				JUMPPING                = 1;
+				JUMPPING            = 1;
 			}
 			break;
 		case ControlComponent::CROUCH:
@@ -80,7 +83,7 @@ void ControlComponent::UpdateAction(enum action action) {
 			    (player->position.y == JUMP_AMOUNT / 2)) {
 				crouchTimer.Start(0.5);
 				player->position.y -= JUMP_AMOUNT / 2;
-				CROUCHING              = 1;
+				CROUCHING           = 1;
 			}
 			break;
 		default: break;

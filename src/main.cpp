@@ -1,4 +1,5 @@
 #define SDL_MAIN_HANDLED
+#include "audio.h"
 #include "background.h"
 #include "bounding_box_component.h"
 #include "camera.h"
@@ -18,6 +19,7 @@
 Window window;
 ControlComponent controller;
 Camera camera;
+Audio audio;
 
 std::vector<GameObject *> gameObjects;
 
@@ -25,6 +27,7 @@ Background background;
 f64 lastFrameTime = 0;
 
 std::thread visionThread;
+std::thread audioThread;
 
 int score;
 
@@ -34,6 +37,7 @@ void Render();
 void Close();
 void StartVision();
 void onCollision(GameObject &gameObject);
+void PlayAudio();
 
 int main(UNUSED int argc, UNUSED char *argv[]) {
 	Init();
@@ -46,7 +50,10 @@ int main(UNUSED int argc, UNUSED char *argv[]) {
 }
 
 void Init() {
+	audio.initEngine();
+
 	visionThread = std::thread(StartVision);
+	audioThread  = std::thread(PlayAudio);
 
 	window.InitializeWindow("Lsd Run", 1280, 720);
 	camera.InitializeCamera(glm::vec3{ 0, 5, 0 });
@@ -61,7 +68,6 @@ void Init() {
 		lane->AddDrawComponent(new ModelComponent("lane/lane.gltf", "lane_texture.png"));
 		lane->position = glm::vec3(0, 0, i * 10 - 5);
 		lane->AddComponent(new MoveToComponent(&lane->position));
-		// lane->AddComponent(new SpinComponent(0.0005f));
 		gameObjects.push_back(lane);
 	}
 
@@ -120,6 +126,7 @@ void Update() {
 	window.PollEvents();
 	SDL_Event e;
 	e = window.GetEvent();
+	if (e.type == SDL_QUIT) { window.Quit(); }
 	if (e.type == SDL_KEYDOWN && e.key.keysym.sym == SDLK_ESCAPE) {
 		std::cout << "Escape pressed | closing the application"
 		          << "\n";
@@ -236,9 +243,12 @@ void StartVision() {
 	}
 }
 
+void PlayAudio() { audio.playBGM(); }
+
 void Close() {
 	window.DestroyWindow();
 	visionThread.join();
+	audioThread.join();
 #ifdef DEBUG
 	for (GameObject *gameObject : gameObjects) { delete gameObject; }
 #endif
