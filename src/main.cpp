@@ -257,6 +257,7 @@ void Close() {
 void onCollision(GameObject &gameObject) {
 	if (gameObject.score < 0) { window.Quit(); }
 	if (gameObject.score > 0) {
+		audio.playCoin();
 		score += gameObject.score;
 		for (int i = 0; i < gameObjects.size(); i++) {
 			if (gameObjects[i]->id == gameObject.id) gameObjects.erase(gameObjects.begin() + i);
