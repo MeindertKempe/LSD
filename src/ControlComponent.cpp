@@ -15,17 +15,17 @@ void ControlComponent::Update(SDL_Event e) {
 
 	if (e.type == SDL_KEYDOWN) {
 		if (e.key.keysym.sym == SDLK_d) {
-			player->position.x = -MOVE_AMOUNT; 
+			player->position.x = -MOVE_AMOUNT;
 
 		}
 
 		else if (e.key.keysym.sym == SDLK_a) {
-			player->position.x = MOVE_AMOUNT; 
+			player->position.x = MOVE_AMOUNT;
 		}
 
 		else if (e.key.keysym.sym == SDLK_s) {
 			player->position.x = 0;
-		
+
 		}
 
 		else if (e.key.keysym.sym == SDLK_SPACE) {
@@ -66,15 +66,9 @@ void ControlComponent::UpdateAction(enum action action) {
 	const float JUMP_AMOUNT = 2.0f;
 
 	switch (action) {
-		case ControlComponent::RIGHT: 
-			player->position.x = -MOVE_AMOUNT; 
-			break;
-		case ControlComponent::LEFT: 
-			player->position.x = MOVE_AMOUNT; 
-			break;
-		case ControlComponent::MIDDLE:	
-			player->position.x = 0;
-			break;
+		case ControlComponent::RIGHT: player->position.x = -MOVE_AMOUNT; break;
+		case ControlComponent::LEFT: player->position.x = MOVE_AMOUNT; break;
+		case ControlComponent::MIDDLE: player->position.x = 0; break;
 
 		case ControlComponent::JUMP:
 			if (!jumpTimer.IsStarted() && (!crouchTimer.IsStarted()) &&
@@ -97,12 +91,12 @@ void ControlComponent::UpdateAction(enum action action) {
 
 	if ((!jumpTimer.IsStarted()) && JUMP && (!crouchTimer.IsStarted())) {
 		player->position.y = JUMP_AMOUNT;
-		JUMPPING                = 0;
+		JUMPPING           = 0;
 	}
 
 	if ((!crouchTimer.IsStarted()) && CROUCH && (!jumpTimer.IsStarted())) {
 		player->position.y = JUMP_AMOUNT / 2;
-		CROUCHING              = 0;
+		CROUCHING          = 0;
 	}
 
 	jumpTimer.Count();
