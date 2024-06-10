@@ -76,7 +76,7 @@ void Init() {
 	player->onCollision = [](GameObject &gameObject) { onCollision(gameObject); };
 	gameObjects.push_back(player);
 
-	for (int i = 5; i < 55; i++) {	
+	for (int i = 5; i < 55; i++) {
 		i32 laneNumber         = std::rand() % 3;
 		GameObject *collidable = new GameObject(&gameObjects);
 		i32 type               = std::rand() % 10;
@@ -240,17 +240,11 @@ void Close() {
 	window.DestroyWindow();
 	visionThread.join();
 #ifdef DEBUG
-	for (GameObject *gameObject : gameObjects) {
-		for (Component *component : gameObject->GetComponents()) { delete component; }
-		delete gameObject->GetBBComponent();
-		//delete gameObject->GetDrawComponent();
-		delete gameObject;
-	}
+	for (GameObject *gameObject : gameObjects) { delete gameObject; }
 #endif
 }
 
-void onCollision(GameObject &gameObject) 
-{ 
+void onCollision(GameObject &gameObject) {
 	if (gameObject.score < 0) { window.Quit(); }
 	if (gameObject.score > 0) {
 		score += gameObject.score;

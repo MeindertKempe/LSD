@@ -12,7 +12,6 @@ GameObject::GameObject(std::vector<GameObject *> *gameObjects, int score)
 
 GameObject::~GameObject() {
 	for (DrawComponent *component : drawComponents) delete component;
-	delete boundingBoxComponent;
 	for (Component *component : components) delete component;
 }
 
@@ -45,7 +44,8 @@ void GameObject::Draw(glm::mat4 projectionView) {
 	modelMatrix           = glm::rotate(modelMatrix, rotation.y, glm::vec3(0, 1, 0));
 	modelMatrix           = glm::rotate(modelMatrix, rotation.z, glm::vec3(0, 0, 1));
 	modelMatrix           = glm::scale(modelMatrix, scale);
-	for (DrawComponent *drawComponent : drawComponents) drawComponent->Draw(projectionView, modelMatrix);
+	for (DrawComponent *drawComponent : drawComponents)
+		drawComponent->Draw(projectionView, modelMatrix);
 }
 
 void GameObject::Update(float elapsedTime) {
