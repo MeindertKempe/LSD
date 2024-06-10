@@ -21,6 +21,7 @@ public:
 	void PollEvents();
 	void SwapBuffers();
 	void Update(bool centeredMouse);
+	void SetTitle(std::string title);
 	i32 WINDOW_WIDTH;
 	i32 WINDOW_HEIGHT;
 

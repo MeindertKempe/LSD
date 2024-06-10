@@ -70,4 +70,8 @@ void Window::SwapBuffers() { SDL_GL_SwapWindow(window); }
 
 SDL_Event Window::GetEvent() { return e; }
 
+void Window::SetTitle(std::string title) { 
+	SDL_SetWindowTitle(this->window, title.c_str());
+}
+
 void Window::Quit() { quit = true; }

@@ -82,7 +82,7 @@ void Init() {
 	player->onCollision = [](GameObject &gameObject) { onCollision(gameObject); };
 	gameObjects.push_back(player);
 
-	for (int i = 5; i < 55; i++) {
+	for (int i = 10; i < 60; i++) {
 		i32 laneNumber         = std::rand() % 3;
 		GameObject *collidable = new GameObject(&gameObjects);
 		i32 type               = std::rand() % 10;
@@ -270,5 +270,7 @@ void onCollision(GameObject &gameObject) {
 			if (gameObjects[i]->id == gameObject.id) gameObjects.erase(gameObjects.begin() + i);
 		}
 	}
+	std::string title = "Score is " + std::to_string(score);
+	window.SetTitle(title);
 	cout << "Je score is: " << score << endl;
 }
