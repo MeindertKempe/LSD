@@ -10,16 +10,22 @@ const f64 TIMER_TIME = 0.6;
 ControlComponent::ControlComponent() {}
 
 void ControlComponent::Update(SDL_Event e) {
-	const float MOVE_AMOUNT = 3.5f;
+	const float MOVE_AMOUNT = 3.7f;
 	const float JUMP_AMOUNT = 2.0f;
 
 	if (e.type == SDL_KEYDOWN) {
 		if (e.key.keysym.sym == SDLK_d) {
-			if (player->position.x != -MOVE_AMOUNT) { player->position.x -= MOVE_AMOUNT; }
+			player->position.x = -MOVE_AMOUNT; 
+
 		}
 
 		else if (e.key.keysym.sym == SDLK_a) {
-			if (player->position.x != MOVE_AMOUNT) { player->position.x += MOVE_AMOUNT; }
+			player->position.x = MOVE_AMOUNT; 
+		}
+
+		else if (e.key.keysym.sym == SDLK_s) {
+			player->position.x = 0;
+		
 		}
 
 		else if (e.key.keysym.sym == SDLK_SPACE) {
@@ -42,13 +48,13 @@ void ControlComponent::Update(SDL_Event e) {
 	}
 
 	if ((!jumpTimer.IsStarted()) && JUMP && (!crouchTimer.IsStarted())) {
-		player->position.y -= JUMP_AMOUNT;
-		JUMPPING            = 0;
+		player->position.y = JUMP_AMOUNT;
+		JUMPPING           = 0;
 	}
 
 	if ((!crouchTimer.IsStarted()) && CROUCH && (!jumpTimer.IsStarted())) {
-		player->position.y += JUMP_AMOUNT / 2;
-		CROUCHING           = 0;
+		player->position.y = JUMP_AMOUNT / 2;
+		CROUCHING          = 0;
 	}
 
 	jumpTimer.Count();

@@ -146,7 +146,8 @@ void Update() {
 	lastFrameTime        = currentFrameTime;
 
 	for (auto gameObject : gameObjects) { gameObject->Update(deltaTime); }
-	// controller.Update(e);
+
+	//controller.Update(e);
 }
 
 void Render() {

@@ -5,3 +5,4 @@ out/
 .cache
 compile_commands.json
 /out
+/CMakeSettings.json
