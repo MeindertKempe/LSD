@@ -8,14 +8,13 @@
 #include <vector>
 
 class GameObject {
-	int id;
 	std::vector<GameObject *> *gameObjects;
-	DrawComponent *drawComponent               = nullptr;
+	std::list<DrawComponent *> drawComponents;
 	BoundingBoxComponent *boundingBoxComponent = nullptr;
 	std::list<Component *> components;
 
 public:
-	int score;
+	int id, score;
 	bool collides = false;
 	void (*onCollision)(GameObject &gameObject) = nullptr;
 	GameObject(std::vector<GameObject *> *gameObjects, int score = 0);
@@ -27,7 +26,7 @@ public:
 
 	void AddComponent(Component *component);
 	std::list<Component *> GetComponents();
-	DrawComponent *GetDrawComponent();
+	std::list<DrawComponent *> GetDrawComponents();
 	BoundingBoxComponent *GetBBComponent();
 	void Update(float elapsedTime);
 	void Draw(glm::mat4 projectioView);

@@ -54,7 +54,7 @@ void ControlComponent::Update(SDL_Event e) {
 }
 
 void ControlComponent::UpdateAction(enum action action) {
-	const float MOVE_AMOUNT = 3.5f;
+	const float MOVE_AMOUNT = 3.7f;
 	const float JUMP_AMOUNT = 2.0f;
 
 	switch (action) {

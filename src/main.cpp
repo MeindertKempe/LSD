@@ -71,7 +71,7 @@ void Init() {
 	controller.player = player;
 	player->position  = glm::vec3(0.0, 1.2, 0.0);
 	player->AddBBComponent(
-	    new BoundingBoxComponent(player, glm::vec3(0, 0, 0), glm::vec3(1, 1, 1)));
+	    new BoundingBoxComponent(player, glm::vec3(0, 0, 0), glm::vec3(1, 3, 1)));
 	player->collides    = true;
 	player->onCollision = [](GameObject &gameObject) { onCollision(gameObject); };
 	gameObjects.push_back(player);
@@ -97,7 +97,7 @@ void Init() {
 
 		collidable->AddComponent(new MoveToComponent(&collidable->position));
 		collidable->AddBBComponent(
-		    new BoundingBoxComponent(collidable, glm::vec3(0, 0, 0), glm::vec3(0.1, 0.1, 0.1)));
+		    new BoundingBoxComponent(collidable, glm::vec3(0, 0, 0), glm::vec3(1, 1, 1)));
 
 		gameObjects.push_back(collidable);
 
@@ -243,7 +243,7 @@ void Close() {
 	for (GameObject *gameObject : gameObjects) {
 		for (Component *component : gameObject->GetComponents()) { delete component; }
 		delete gameObject->GetBBComponent();
-		delete gameObject->GetDrawComponent();
+		//delete gameObject->GetDrawComponent();
 		delete gameObject;
 	}
 #endif
@@ -252,6 +252,11 @@ void Close() {
 void onCollision(GameObject &gameObject) 
 { 
 	if (gameObject.score < 0) { window.Quit(); }
-	if (gameObject.score > 0) { score += gameObject.score; };
+	if (gameObject.score > 0) {
+		score += gameObject.score;
+		for (int i = 0; i < gameObjects.size(); i++) {
+			if (gameObjects[i]->id == gameObject.id) gameObjects.erase(gameObjects.begin() + i);
+		}
+	}
 	cout << "Je score is: " << score << endl;
 }
