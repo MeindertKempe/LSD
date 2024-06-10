@@ -12,8 +12,8 @@
 #include <opencv2/highgui.hpp>
 #include <opencv2/imgcodecs.hpp>
 #include <opencv2/imgproc.hpp>
-#include <thread>
 #include <random>
+#include <thread>
 
 Window window;
 ControlComponent controller;
@@ -26,11 +26,14 @@ f64 lastFrameTime = 0;
 
 std::thread visionThread;
 
+int score;
+
 void Init();
 void Update();
 void Render();
 void Close();
 void StartVision();
+void onCollision(GameObject &gameObject);
 
 int main(UNUSED int argc, UNUSED char *argv[]) {
 	Init();
@@ -66,35 +69,30 @@ void Init() {
 	player->AddComponent(new ControlComponent());
 	player->AddDrawComponent(new ModelComponent("player/player.gltf", "player.png"));
 	controller.player = player;
-	player->position = glm::vec3(0.0, 1.2, 0.0);
+	player->position  = glm::vec3(0.0, 1.2, 0.0);
 	player->AddBBComponent(
 	    new BoundingBoxComponent(player, glm::vec3(0, 0, 0), glm::vec3(1, 1, 1)));
-	player->collides = true;
-	//player->onCollision = [] { window.Quit(); };
+	player->collides    = true;
+	player->onCollision = [](GameObject &gameObject) { onCollision(gameObject); };
 	gameObjects.push_back(player);
 
-	for (int i = 5; i < 55; i++) {
-		i32 laneNumber = std::rand() % 3;
+	for (int i = 5; i < 55; i++) {	
+		i32 laneNumber         = std::rand() % 3;
 		GameObject *collidable = new GameObject(&gameObjects);
-		i32 type = std::rand() % 10;
-		if (type > 2){
+		i32 type               = std::rand() % 10;
+		if (type > 2) {
 			collidable->AddDrawComponent(new ModelComponent("barrel/barrel.gltf", "barrel.png"));
-		} 
-		else {
+			collidable->score = -1;
+		} else {
 			collidable->AddDrawComponent(new ModelComponent("coin/coin.gltf", "coin.png"));
+			collidable->score = 1;
 			collidable->AddComponent(new SpinComponent(0.005));
 		};
 
 		switch (laneNumber) {
-			case 0:
-				collidable->position = glm::vec3(-3.7, 1.2, i * 20);
-				break;
-			case 1:
-				collidable->position = glm::vec3(0, 1.2, i * 20);
-				break;
-			case 2:
-				collidable->position = glm::vec3(3.7, 1.2, i * 20);
-				break;
+			case 0: collidable->position = glm::vec3(-3.7, 1.2, i * 20); break;
+			case 1: collidable->position = glm::vec3(0, 1.2, i * 20); break;
+			case 2: collidable->position = glm::vec3(3.7, 1.2, i * 20); break;
 		}
 
 		collidable->AddComponent(new MoveToComponent(&collidable->position));
@@ -102,6 +100,8 @@ void Init() {
 		    new BoundingBoxComponent(collidable, glm::vec3(0, 0, 0), glm::vec3(0.1, 0.1, 0.1)));
 
 		gameObjects.push_back(collidable);
+
+		score = 0;
 	}
 
 	// setup background;
@@ -130,9 +130,9 @@ void Update() {
 	f64 currentFrameTime = SDL_GetTicks64();
 	f64 deltaTime        = currentFrameTime - lastFrameTime;
 	lastFrameTime        = currentFrameTime;
-  
+
 	for (auto gameObject : gameObjects) { gameObject->Update(deltaTime); }
-	//controller.Update(e);
+	// controller.Update(e);
 }
 
 void Render() {
@@ -225,8 +225,8 @@ void StartVision() {
 			position = "Unknown";
 		}
 
-		//std::cout << "User is in the " << position << " part of the image" << std::endl;
-		//std::cout << "User is currently " << action << std::endl;
+		// std::cout << "User is in the " << position << " part of the image" << std::endl;
+		// std::cout << "User is currently " << action << std::endl;
 
 		cv::rectangle(img, topRect, cv::Scalar(255, 0, 0), 2);
 		cv::rectangle(img, bottomRect, cv::Scalar(255, 0, 0), 2);
@@ -247,4 +247,11 @@ void Close() {
 		delete gameObject;
 	}
 #endif
+}
+
+void onCollision(GameObject &gameObject) 
+{ 
+	if (gameObject.score < 0) { window.Quit(); }
+	if (gameObject.score > 0) { score += gameObject.score; };
+	cout << "Je score is: " << score << endl;
 }

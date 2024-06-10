@@ -5,7 +5,8 @@
 
 static int id_count = 0;
 
-GameObject::GameObject(std::vector<GameObject *> *gameObjects) : gameObjects{ gameObjects } {
+GameObject::GameObject(std::vector<GameObject *> *gameObjects, int score)
+    : gameObjects{ gameObjects }, score{ score } {
 	id = id_count++;
 }
 
@@ -50,7 +51,7 @@ void GameObject::Update(float elapsedTime) {
 			if (!gameObject->boundingBoxComponent) continue;
 			if (gameObject->id == id) continue;
 			if (boundingBoxComponent->collide(*gameObject->boundingBoxComponent)) {
-				if (onCollision) onCollision();
+				if (onCollision) onCollision(*gameObject);
 			}
 		}
 	}

@@ -15,9 +15,10 @@ class GameObject {
 	std::list<Component *> components;
 
 public:
+	int score;
 	bool collides = false;
-	void (*onCollision)(void) = nullptr;
-	GameObject(std::vector<GameObject *> *gameObjects);
+	void (*onCollision)(GameObject &gameObject) = nullptr;
+	GameObject(std::vector<GameObject *> *gameObjects, int score = 0);
 	~GameObject();
 
 	glm::vec3 position = glm::vec3(0);
@@ -31,7 +32,6 @@ public:
 	void Update(float elapsedTime);
 	void Draw(glm::mat4 projectioView);
 	void AddDrawComponent(DrawComponent *drawComponent);
-	float GetZ();
 	void AddBBComponent(BoundingBoxComponent *bbComponent);
 
 	template <class T> T *GetComponent() {
